@@ -65,7 +65,7 @@
  * they have been added.
  * Might return nil if there is no extenders added to the object. */
 - (NSArray *)hc_extenders;
-- (NSArray *)hc_extendersConformingToProtocol:(Protocol *)p; /* Not cached. Can be slow. TODO: Cache it? */
+- (NSArray *)hc_extendersConformingToProtocol:(Protocol *)p; /* Cached. */
 /* This method can safely be subclassed, as long as super is called at the
  * beginning of the override (the result of the call to super should be checked
  * too).

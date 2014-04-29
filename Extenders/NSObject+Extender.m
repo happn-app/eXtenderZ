@@ -17,6 +17,7 @@
 static char EXTENDERS_KEY; /* Global 0 initialization is fine here. No need to
 									 * change it since the value of the variable is not
 									 * used; only its address. */
+static char EXTENDERS_BY_PROTOCOL_KEY;
 
 static CFMutableDictionaryRef sharedHelptendersByProtocol(void);
 static CFMutableDictionaryRef sharedRuntimeHelptendersByHierarchy(void);
@@ -282,23 +283,46 @@ static CFHashCode helptendersHierarchyHash(const void *value) {
 	return [self hc_extendersCreateIfNotExist:NO];
 }
 
-- (NSArray *)hc_extendersConformingToProtocol:(Protocol *)p
-{
-	NSMutableArray *ret = [NSMutableArray arrayWithCapacity:self.hc_extenders.count];
-	for (NSObject <HCExtender> *extender in self.hc_extenders)
-		if ([extender conformsToProtocol:p])
-			[ret addObject:extender];
-	
-	return ret;
-}
-
 - (NSMutableArray *)hc_extendersCreateIfNotExist:(BOOL)createIfNeeded
 {
 	id ret = [self hc_getAssociatedObjectWithKey:&EXTENDERS_KEY createIfNotExistWithBlock:(createIfNeeded? ^id{
 		return [[NSMutableArray alloc] initWithCapacity:7];
 	}: NULL)];
 	
-	NSAssert(ret == nil || [ret isKindOfClass:[NSMutableArray class]], @"***** INTERNAL ERROR: Got invalid (not of class NSMutableArray) associated object %@ in %@", ret, NSStringFromSelector(_cmd));
+	NSAssert(ret == nil || [ret isKindOfClass:NSMutableArray.class], @"***** INTERNAL ERROR: Got invalid (not of class NSMutableArray) associated object %@ in %@", ret, NSStringFromSelector(_cmd));
+	return ret;
+}
+
+- (CFMutableDictionaryRef)hc_extendersByProtocolCreateIfNotExist:(BOOL)createIfNeeded
+{
+	id ret = [self hc_getAssociatedObjectWithKey:&EXTENDERS_BY_PROTOCOL_KEY createIfNotExistWithBlock:(createIfNeeded? ^id{
+		CFDictionaryKeyCallBacks keyCallBacks = {
+			.version         = 0,
+			.retain          = NULL,
+			.release         = NULL,
+			.copyDescription = NULL,
+			.equal           = &areProtocolEqual,
+			.hash            = &protocolHash
+		};
+		return (NSMutableDictionary *)CFDictionaryCreateMutable(kCFAllocatorDefault, 0, &keyCallBacks, &kCFTypeDictionaryValueCallBacks);
+	}: NULL)];
+	
+	NSAssert(ret == nil || [ret isKindOfClass:NSMutableDictionary.class], @"***** INTERNAL ERROR: Got invalid (not of class NSMutableDictionary) associated object %@ in %@", ret, NSStringFromSelector(_cmd));
+	return (CFMutableDictionaryRef)ret;
+}
+
+- (NSArray *)hc_extendersConformingToProtocol:(Protocol *)p
+{
+	CFMutableDictionaryRef extendersByProtocol = [self hc_extendersByProtocolCreateIfNotExist:YES];
+	NSMutableArray *ret = CFDictionaryGetValue(extendersByProtocol, p);
+	if (ret != nil) return (NSArray *)ret;
+	
+	ret = [NSMutableArray arrayWithCapacity:self.hc_extenders.count];
+	for (NSObject <HCExtender> *extender in self.hc_extenders)
+		if ([extender conformsToProtocol:p])
+			[ret addObject:extender];
+	
+	CFDictionarySetValue(extendersByProtocol, p, ret);
 	return ret;
 }
 
@@ -310,6 +334,7 @@ static CFHashCode helptendersHierarchyHash(const void *value) {
 	NSDLog(@"Removing extender %@ from object %p <%@>", extender, self, NSStringFromClass(self.class));
 	[extender prepareObjectForRemovalOfExtender:self];
 	[e removeObjectAtIndex:idx];
+	objc_setAssociatedObject(self, &EXTENDERS_BY_PROTOCOL_KEY, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 	if (e.count == 0) objc_setAssociatedObject(self, &EXTENDERS_KEY, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 	
 	Class c = classForObjectExtendedWith(self, e);
@@ -686,6 +711,7 @@ static Class changeClassOfObjectNotifyingHelptenders(NSObject *object, Class new
 	}
 	
 	[[self hc_extendersCreateIfNotExist:YES] addObject:extender];
+	objc_setAssociatedObject(self, &EXTENDERS_BY_PROTOCOL_KEY, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 	NSDLog(@"Added extender %@ to object %@", extender, self);
 	
 	return YES;
