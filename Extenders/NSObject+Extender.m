@@ -263,6 +263,15 @@ static CFHashCode helptendersHierarchyHash(const void *value) {
 	return curClass;
 }
 
+- (void)dealloc
+{
+	NSUInteger n;
+	while ((n = self.hc_extenders.count) > 0)
+		[self hc_removeExtender:self.hc_extenders[n-1] atIndex:n-1];
+	
+	[super dealloc];
+}
+
 - (BOOL)hc_isExtended
 {
 	return YES;
