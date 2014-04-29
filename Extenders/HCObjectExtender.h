@@ -43,6 +43,6 @@
  * When searching for extenders responding to the modified selector, the search
  * is done in the order the extenders were added to the object.
  */
-@interface HCObjectHelptender : NSLocale <HCHelptender>
+@interface HCObjectHelptender : NSObject <HCHelptender>
 
 @end

@@ -406,20 +406,34 @@ static CFMutableDictionaryRef sharedOriginalHelptendersFromRuntimeHelptender(voi
 	return originalHelptendersFromRuntimeHelptender;
 }
 
-static void recAddProtocolsHelptendersToSet(Protocol *baseProtocol, CFMutableSetRef set) {
+/* Returns NO if the baseProtocol conforms to protocol HCExtender, but the
+ * helptender is not kind of the class of the ref object. */
+static BOOL recAddProtocolsHelptendersToSet(Protocol *baseProtocol, CFMutableSetRef set, NSObject *refObject) {
 	if (!protocol_conformsToProtocol(baseProtocol, @protocol(HCExtender)))
-		return;
+		return YES;
 	
 	const t_helptender *helptender = CFDictionaryGetValue(sharedHelptendersByProtocol(), baseProtocol);
 	if (helptender == NULL)
 		[NSException raise:@"Invalid Argument" format:@"Got protocol %s, conforming to protocol HCExtender, but not registered.", protocol_getName(baseProtocol)];
+	if (![refObject.class isSubclassOfClass:helptender->extended]) {
+		NSLog(@"*** Warning: Got helptender class %s for protocol %s, declared to extend %s, but extended object %p (of class %s) is not kind of %s",
+				class_getName(helptender->helptenderClass), protocol_getName(baseProtocol), class_getName(helptender->extended), refObject, class_getName(refObject.class), class_getName(helptender->extended));
+		return NO;
+	}
 	CFSetAddValue(set, helptender);
 	
+	BOOL ok = YES;
 	Protocol **protocols = protocol_copyProtocolList(baseProtocol, NULL);
-	for (Protocol **curProtocolPtr = protocols; curProtocolPtr != NULL && *curProtocolPtr != NULL; ++curProtocolPtr)
-		recAddProtocolsHelptendersToSet(*curProtocolPtr, set);
+	for (Protocol **curProtocolPtr = protocols; curProtocolPtr != NULL && *curProtocolPtr != NULL; ++curProtocolPtr) {
+		if (!recAddProtocolsHelptendersToSet(*curProtocolPtr, set, refObject)) {
+			ok = NO;
+			goto end;
+		}
+	}
 	
+end:
 	if (protocols != NULL) free(protocols);
+	return ok;
 }
 
 /* Compute which helptenders are needed for each extenders given, then get or
@@ -434,22 +448,24 @@ static Class classForObjectExtendedWith(NSObject *object, NSArray *extenders) {
 		return Nil;
 	}
 	
-	/* For each extender, get list of protocols it conforms to.
-	 * For each protocol, if the protocol conforms to protocol HCExtender,
-	 *    get the associated helptender, add it to the set of helptenders
-	 *    to add to the final class
-	 * Sort the set of helptenders to get a sorted array of helptenders to add
-	 *    to the final class. The sorting must be done on the position of the
-	 *    extended class of the helptender in the class hierarchy. As there are
-	 *    no multiple inheritance allowed in objective-c, and as there can't be
-	 *    two extenders from two different branches of the class hierarchy (eg.
-	 *    one in the NSNumber branch, the other on the UIView branch), there will
-	 *    never be any ambiguity on this order (no classes will be "equal" when
-	 *    compared).
-	 * For each classes, create and register the runtime helptender if not
-	 *    already registered, else get it. Return the last runtime helptender, it
-	 *    will be the new class of the extended object.
+	/* General algorithm:
+	 *    For each extender, get list of protocols it conforms to.
+	 *    For each protocol, if the protocol conforms to protocol HCExtender,
+	 *       get the associated helptender, add it to the set of helptenders
+	 *       to add to the final class
+	 *    Sort the set of helptenders to get a sorted array of helptenders to add
+	 *       to the final class. The sorting must be done on the position of the
+	 *       extended class of the helptender in the class hierarchy. As there are
+	 *       no multiple inheritance allowed in objective-c, and as there can't be
+	 *       two extenders from two different branches of the class hierarchy (eg.
+	 *       one in the NSNumber branch, the other on the UIView branch), there will
+	 *       never be any ambiguity on this order (no classes will be "equal" when
+	 *       compared).
+	 *    For each classes, create and register the runtime helptender if not
+	 *       already registered, else get it. Return the last runtime helptender, it
+	 *       will be the new class of the extended object.
 	 */
+	
 	t_helptenders_hierarchy *hh = createHelptendersHierarchyWithBaseClass(object.class);
 	for (NSObject <HCExtender> *extender in extenders) {
 		if (![extender conformsToProtocol:@protocol(HCExtender)])
@@ -458,10 +474,17 @@ static Class classForObjectExtendedWith(NSObject *object, NSArray *extenders) {
 		for (Class curClass = extender.class; curClass != Nil; curClass = class_getSuperclass(curClass)) {
 			Protocol **protocols = class_copyProtocolList(curClass, NULL);
 			
-			for (Protocol **curProtocolPtr = protocols; curProtocolPtr != NULL && *curProtocolPtr != NULL; ++curProtocolPtr)
-				recAddProtocolsHelptendersToSet(*curProtocolPtr, hh->helptenders);
+			BOOL ok = YES;
+			for (Protocol **curProtocolPtr = protocols; curProtocolPtr != NULL && *curProtocolPtr != NULL; ++curProtocolPtr) {
+				if (!recAddProtocolsHelptendersToSet(*curProtocolPtr, hh->helptenders, object)) {
+					ok = NO;
+					goto end;
+				}
+			}
 			
+		end:
 			if (protocols != NULL) free(protocols);
+			if (!ok) return Nil;
 		}
 	}
 	
