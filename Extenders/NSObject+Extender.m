@@ -282,6 +282,16 @@ static CFHashCode helptendersHierarchyHash(const void *value) {
 	return [self hc_extendersCreateIfNotExist:NO];
 }
 
+- (NSArray *)hc_extendersConformingToProtocol:(Protocol *)p
+{
+	NSMutableArray *ret = [NSMutableArray arrayWithCapacity:self.hc_extenders.count];
+	for (NSObject <HCExtender> *extender in self.hc_extenders)
+		if ([extender conformsToProtocol:p])
+			[ret addObject:extender];
+	
+	return ret;
+}
+
 - (NSMutableArray *)hc_extendersCreateIfNotExist:(BOOL)createIfNeeded
 {
 	id ret = [self hc_getAssociatedObjectWithKey:&EXTENDERS_KEY createIfNotExistWithBlock:(createIfNeeded? ^id{

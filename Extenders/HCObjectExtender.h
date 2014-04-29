@@ -11,6 +11,7 @@
 #import "NSObject+Extender.h"
 
 
+
 @protocol HCObjectExtender <HCExtender>
 
 @end
@@ -19,10 +20,10 @@
 
 /* When an object extended with an extender conforming the the HCObjectExtender
  * protocol receives a message to which it cannot respond, it will try asking
- * its extenders if they can respond for him to the message. The first extender
- * which can do it will be forwarded a slightly modified message to. The
- * original message will be modified so the extended object which forwarded the
- * message be included in the new message.
+ * its extenders which conform to protocol HCObjectExtender if they can respond
+ * for him to the message. The first extender which can do it will be forwarded
+ * a slightly modified message to. The original message will be modified so the
+ * extended object which forwarded the message be included in the new message.
  *
  *
  * Let's see an example:

@@ -113,12 +113,13 @@ static char *typesInRangeFromMethodSignatureWithDelta(NSInteger startIdx, NSInte
 - (BOOL)respondsToSelector:(SEL)aSelector
 {
 	if ([super respondsToSelector:aSelector]) return YES;
-	if (self.hc_extenders.count == 0) return NO;
+	NSArray *extendersConformingToProtocol = [self hc_extendersConformingToProtocol:@protocol(HCObjectExtender)];
+	if (extendersConformingToProtocol.count == 0) return NO;
 	
 	aSelector = transformedSelectorFrom(aSelector);
 	if (aSelector == NULL) return NO;
 	
-	for (id <HCObjectExtender> extender in self.hc_extenders)
+	for (id <HCObjectExtender> extender in extendersConformingToProtocol)
 		if ([extender respondsToSelector:aSelector])
 			return YES;
 	
@@ -129,12 +130,13 @@ static char *typesInRangeFromMethodSignatureWithDelta(NSInteger startIdx, NSInte
 {
 	if ([super respondsToSelector:aSelector])
 		return [super methodSignatureForSelector:aSelector];
-	if (self.hc_extenders.count == 0) return nil;
+	NSArray *extendersConformingToProtocol = [self hc_extendersConformingToProtocol:@protocol(HCObjectExtender)];
+	if (extendersConformingToProtocol.count == 0) return nil;
 	
 	aSelector = transformedSelectorFrom(aSelector);
 	if (aSelector == NULL) return nil;
 	
-	for (NSObject <HCObjectExtender> *extender in self.hc_extenders) {
+	for (NSObject <HCObjectExtender> *extender in extendersConformingToProtocol) {
 		if ([extender respondsToSelector:aSelector]) {
 			NSMethodSignature *methodSignature = [extender methodSignatureForSelector:aSelector];
 			
@@ -190,7 +192,7 @@ static char *typesInRangeFromMethodSignatureWithDelta(NSInteger startIdx, NSInte
 	}
 	[transformedInvocation setArgument:&self atIndex:2];
 	
-	for (id <HCObjectExtender> extender in self.hc_extenders) {
+	for (id <HCObjectExtender> extender in [self hc_extendersConformingToProtocol:@protocol(HCObjectExtender)]) {
 		if ([extender respondsToSelector:transformedInvocation.selector]) {
 			[transformedInvocation invokeWithTarget:extender];
 			goto end;
