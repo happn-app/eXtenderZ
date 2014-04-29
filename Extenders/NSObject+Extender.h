@@ -42,7 +42,15 @@
 
 
 
-/* WARNING: Adding/removing an extender is *not* thread-safe. */
+/* WARNING: Adding/removing an extender is *not* thread-safe.
+ * Most of the methods here only work in object that are extended by at least
+ * one extender. Methods that are safe to use on any objects are:
+ *    * +hc_registerClass:asHelptenderForProtocol:
+ *    * -hc_isExtended
+ *    * -hc_extenders
+ *    * -hc_addExtender:
+ * Other methods should not be called on objects whose method hc_isExtended
+ * returns NO. */
 @interface NSObject (Extender)
 
 /* Must be called in the +load method of any extender helper (helptender) class.
