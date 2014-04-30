@@ -9,7 +9,6 @@
 #import "NSObject+Extender.h"
 
 #import <objc/runtime.h>
-#import <objc/Protocol.h>
 
 #import "HCUtils.h"
 #import "NSObject+HCUtils.h"
@@ -295,11 +294,12 @@ static CFHashCode classPairHash(const void *value) {
 	return classHash(cp->class1) + CFHash(cp->class2);
 }
 
-
 @interface NSObject ()
 
 - (NSMutableArray *)hc_extenders;
 - (NSMutableArray *)hc_extendersCreateIfNotExist:(BOOL)createIfNeeded;
+
+- (BOOL)hc_addExtender:(NSObject <HCExtender> *)extender withOriginalClass:(Class)originalClass;
 
 @end
 
@@ -398,6 +398,46 @@ static CFHashCode classPairHash(const void *value) {
 	
 	CFDictionarySetValue(extendersByProtocol, p, ret);
 	return ret;
+}
+
+- (BOOL)hc_addExtender:(NSObject <HCExtender> *)extender
+{
+	Class c = classForObjectExtendedWith(self, (self.hc_extenders? [self.hc_extenders arrayByAddingObject:extender]: @[extender]));
+	if (c == Nil) {
+		NSLog(@"*** Warning: Can't get the class to extend object %@.", self);
+		return NO;
+	}
+	if (c != object_getClass(self)) {
+		Class originalClass = changeClassOfObjectNotifyingHelptenders(self, c);
+		return [self hc_addExtender:extender withOriginalClass:originalClass];
+	}
+	
+	if ([self hc_isExtenderAdded:extender]) {
+		NSLog(@"*** Warning: Tried to add extender %@ to extended object %@, but this extender is already added to this object", extender, self);
+		return NO;
+	}
+	
+	if (![extender prepareObjectForExtender:self]) {
+		NSLog(@"*** Warning: Failed to add extender %@ to extended object %@", extender, self);
+		return NO;
+	}
+	
+	[[self hc_extendersCreateIfNotExist:YES] addObject:extender];
+	objc_setAssociatedObject(self, &EXTENDERS_BY_PROTOCOL_KEY, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+	NSDLog(@"Added extender %@ to object %@", extender, self);
+	
+	return YES;
+}
+
+- (BOOL)hc_addExtender:(NSObject <HCExtender> *)extender withOriginalClass:(Class)originalClass
+{
+	if (![self hc_addExtender:extender]) {
+		/* We revert the object to its original class. */
+		changeClassOfObjectNotifyingHelptenders(self, originalClass);
+		return NO;
+	}
+	
+	return YES;
 }
 
 - (void)hc_removeExtender:(NSObject <HCExtender> *)extender atIndex:(NSUInteger)idx
@@ -823,12 +863,6 @@ static Class changeClassOfObjectNotifyingHelptenders(NSObject *object, Class new
 	return NO;
 }
 
-- (BOOL)hc_isExtenderAdded:(NSObject <HCExtender> *)extender
-{
-#pragma unused(extender)
-	return NO;
-}
-
 - (NSArray *)hc_extenders
 {
 	return nil;
@@ -836,11 +870,6 @@ static Class changeClassOfObjectNotifyingHelptenders(NSObject *object, Class new
 
 - (BOOL)hc_addExtender:(NSObject <HCExtender> *)extender
 {
-	if ([self hc_isExtenderAdded:extender]) {
-		NSLog(@"*** Warning: Tried to add extender %@ to extended object %@, but this extender is already added to this object", extender, self);
-		return NO;
-	}
-	
 	Class c = classForObjectExtendedWith(self, (self.hc_extenders? [self.hc_extenders arrayByAddingObject:extender]: @[extender]));
 	if (c == Nil) {
 		NSLog(@"*** Warning: Can't get the class to extend object %@.", self);
@@ -849,18 +878,37 @@ static Class changeClassOfObjectNotifyingHelptenders(NSObject *object, Class new
 	
 	Class originalClass = changeClassOfObjectNotifyingHelptenders(self, c);
 	
-	if (![extender prepareObjectForExtender:self]) {
-		NSLog(@"*** Warning: Failed to add extender %@ to extended object %@", extender, self);
-		/* We revert the object to its original class. */
-		changeClassOfObjectNotifyingHelptenders(self, originalClass);
-		return NO;
-	}
-	
-	[[self hc_extendersCreateIfNotExist:YES] addObject:extender];
-	objc_setAssociatedObject(self, &EXTENDERS_BY_PROTOCOL_KEY, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-	NSDLog(@"Added extender %@ to object %@", extender, self);
-	
-	return YES;
+	return [self hc_addExtender:extender withOriginalClass:originalClass];
+}
+
+- (BOOL)hc_removeExtender:(NSObject <HCExtender> *)extender
+{
+#pragma unused(extender)
+	return NO;
+}
+
+- (NSUInteger)hc_removeExtendersOfClass:(Class <HCExtender>)extenderClass
+{
+#pragma unused(extenderClass)
+	return 0;
+}
+
+- (void)hc_removeExtender:(NSObject <HCExtender> *)extender atIndex:(NSUInteger)idx
+{
+#pragma unused(extender, idx)
+	[NSException raise:@"Cannot Remove Extender" format:@"Trying to remove an extender on a non-extended object."];
+}
+
+- (id <HCExtender>)hc_firstExtenderOfClass:(Class <HCExtender>)extenderClass
+{
+#pragma unused(extenderClass)
+	return nil;
+}
+
+- (BOOL)hc_isExtenderAdded:(NSObject <HCExtender> *)extender
+{
+#pragma unused(extender)
+	return NO;
 }
 
 @end
