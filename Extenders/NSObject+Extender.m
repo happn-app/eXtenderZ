@@ -335,7 +335,10 @@ static CFHashCode helptendersHierarchyHash(const void *value) {
 	[extender prepareObjectForRemovalOfExtender:self];
 	[e removeObjectAtIndex:idx];
 	objc_setAssociatedObject(self, &EXTENDERS_BY_PROTOCOL_KEY, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-	if (e.count == 0) objc_setAssociatedObject(self, &EXTENDERS_KEY, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+	if (e.count == 0) {
+		e = nil;
+		objc_setAssociatedObject(self, &EXTENDERS_KEY, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+	}
 	
 	Class c = classForObjectExtendedWith(self, e);
 	changeClassOfObjectNotifyingHelptenders(self, c);
