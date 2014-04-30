@@ -562,14 +562,28 @@ static Class classForObjectExtendedWith(NSObject *object, NSArray *extenders) {
 		
 		CFArraySortValues(helptendersArray, CFRangeMake(0, nHelptenders), &compareHelptenders, NULL);
 		
+		char *baseClassName = copyStrs(class_getName(hh->baseClass), "", NULL);
+		for (CFIndex i = 0; i < nHelptenders; ++i) {
+			const t_helptender *curHelptender = CFArrayGetValueAtIndex(helptendersArray, i);
+			char *newClassName = copyStrs(baseClassName, "_Ext_", class_getName(curHelptender->helptenderClass));
+			free(baseClassName); baseClassName = newClassName;
+		}
+		
 		ret = hh->baseClass;
 		for (CFIndex i = 0; i < nHelptenders; ++i) {
 			const t_helptender *curHelptender = CFArrayGetValueAtIndex(helptendersArray, i);
 			const t_helptender *prevHelptender = (i > 0? CFArrayGetValueAtIndex(helptendersArray, i - 1): NULL);
 			const t_helptender *nextHelptender = (i+1 < nHelptenders? CFArrayGetValueAtIndex(helptendersArray, i + 1): NULL);
 			if (prevHelptender == NULL || curHelptender->extended != prevHelptender->extended) {
-				char *newClassName = copyStrs(class_getName(ret), "_Ext_", class_getName(curHelptender->helptenderClass));
+				char buf[8]; BOOL hasMalloced = NO;
+				char *intStr = auto_sprintf(buf, 8, &hasMalloced, "%lld", (long long)i);
+				char *newClassName = copyStrs(baseClassName, "__", intStr);
+				if (hasMalloced) free(intStr);
+				
 				ret = objc_allocateClassPair(ret, newClassName, 0);
+				if (ret == Nil)
+					[NSException raise:@"Cannot Allocate Class Pair" format:@"Got an error allocating a class pair with name %s. Does the class name already exist in the runtime?", newClassName];
+				
 				free(newClassName);
 			}
 			
