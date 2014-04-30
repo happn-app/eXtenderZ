@@ -15,7 +15,7 @@
 	((IMP)class_getMethodImplementation([self getSuperClassWithOriginalHelptenderClass:className.class], _cmd))(self, _cmd, __VA_ARGS__)
 
 #define HELPTENDER_CALL_SUPER_WITH_SEL_NAME(className, sel_name, ...) \
-	((IMP)class_getMethodImplementation([self getSuperClassWithOriginalHelptenderClass:className.class], @selector(sel_name)))(self, _cmd, __VA_ARGS__)
+	((IMP)class_getMethodImplementation([self getSuperClassWithOriginalHelptenderClass:className.class], @selector(sel_name)))(self, @selector(sel_name), __VA_ARGS__)
 
 
 
