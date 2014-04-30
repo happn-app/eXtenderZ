@@ -9,6 +9,7 @@
 #import "HCObjectExtender.h"
 
 #import "HCUtils.h"
+#import "HCHelptenderUtils.h"
 
 #define DEFAULT_BUFFER_LENGTH (256) /* Bytes */
 
@@ -25,14 +26,12 @@
 {
 #pragma unused(helptender)
 	/* Nothing do to here */
-	NSDLog(@"Helptender %@ has been added in HCObjectHelptender", helptender);
 }
 
 + (void)hc_helptenderWillBeRemoved:(NSObject <HCHelptender> *)helptender
 {
 #pragma unused(helptender)
 	/* Nothing do to here */
-	NSDLog(@"Helptender %@ will be removed in HCObjectHelptender", helptender);
 }
 
 #pragma mark - Weird Stuff (Utils)
@@ -108,11 +107,11 @@ static char *typesInRangeFromMethodSignatureWithDelta(NSInteger startIdx, NSInte
 	return buffer;
 }
 
-#pragma mark - Weird Stuff (Swizzled Methods)
+#pragma mark - Weird Stuff
 
 - (BOOL)respondsToSelector:(SEL)aSelector
 {
-	if ([super respondsToSelector:aSelector]) return YES;
+	if (HELPTENDER_CALL_SUPER(HCObjectHelptender, aSelector)) return YES;
 	NSArray *extendersConformingToProtocol = [self hc_extendersConformingToProtocol:@protocol(HCObjectExtender)];
 	if (extendersConformingToProtocol.count == 0) return NO;
 	
@@ -128,8 +127,8 @@ static char *typesInRangeFromMethodSignatureWithDelta(NSInteger startIdx, NSInte
 
 - (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector
 {
-	if ([super respondsToSelector:aSelector])
-		return [super methodSignatureForSelector:aSelector];
+	if (HELPTENDER_CALL_SUPER_WITH_SEL_NAME(HCObjectHelptender, respondsToSelector:, aSelector))
+		return HELPTENDER_CALL_SUPER(HCObjectHelptender, aSelector);
 	NSArray *extendersConformingToProtocol = [self hc_extendersConformingToProtocol:@protocol(HCObjectExtender)];
 	if (extendersConformingToProtocol.count == 0) return nil;
 	
@@ -199,7 +198,7 @@ static char *typesInRangeFromMethodSignatureWithDelta(NSInteger startIdx, NSInte
 		}
 	}
 	
-	[super forwardInvocation:anInvocation];
+	HELPTENDER_CALL_SUPER(HCObjectHelptender, anInvocation);
 	
 end:
 	if (anInvocation.methodSignature.methodReturnLength > 0) {

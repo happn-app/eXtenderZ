@@ -13,6 +13,7 @@
 
 #import "HCUtils.h"
 #import "NSObject+HCUtils.h"
+#import "HCHelptenderUtils.h"
 
 static char EXTENDERS_KEY; /* Global 0 initialization is fine here. No need to
 									 * change it since the value of the variable is not
@@ -48,6 +49,25 @@ static char *copyStrs(const char * restrict str1, const char * restrict str2, co
 		strncpy(strCopy + strlen(str1) + strlen(str2), str3, l - strlen(str1) - strlen(str2));
 	strCopy[l] = '\0';
 	return strCopy;
+}
+
+static char *auto_sprintf(char * restrict buffer, size_t buffer_size, BOOL * restrict has_malloced, const char * restrict format, ...) {
+	size_t n;
+	va_list ap;
+	*has_malloced = NO;
+	
+	va_start(ap, format);
+	n = vsnprintf(buffer, buffer_size, format, ap);
+	va_end(ap);
+	if (n < buffer_size) return buffer;
+	
+	char *ret = NULL;
+	*has_malloced = YES;
+	va_start(ap, format);
+	(void)vasprintf(&ret, format, ap);
+	va_end(ap);
+	
+	return ret;
 }
 
 static void addToSet(const void *value, void *context) {
@@ -220,6 +240,61 @@ static CFHashCode helptendersHierarchyHash(const void *value) {
 	return classHash(hh->baseClass) + CFHash(hh->helptenders);
 }
 
+#pragma mark - Class Pair
+
+typedef struct s_class_pair {
+	Class class1;
+	Class class2;
+	
+	NSUInteger retainCount;
+} t_class_pair;
+
+static inline t_class_pair *createClassPair(Class class1, Class class2) {
+	size_t size = 1 * sizeof(t_class_pair);
+	t_class_pair *class_pair = malloc(size);
+	if (class_pair == NULL) [NSException raise:@"Cannot allocate memory" format:@"Cannot allocate %lu bytes. Giving up...", size];
+	
+	class_pair->class1 = class1;
+	class_pair->class2 = class2;
+	
+	class_pair->retainCount = 1;
+	return class_pair;
+}
+
+static inline t_class_pair *retainClassPair(t_class_pair *classPair) {
+	++(classPair->retainCount);
+	return classPair;
+}
+
+static inline void releaseClassPair(t_class_pair *classPair) {
+	--(classPair->retainCount);
+	
+	if (classPair->retainCount == 0)
+		free(classPair);
+}
+
+static const void *retainClassPairFromDic(CFAllocatorRef allocator, const void *value) {
+#pragma unused(allocator)
+	return retainClassPair((/* no const */void *)value);
+}
+
+static void releaseClassPairFromDic(CFAllocatorRef allocator, const void *value) {
+#pragma unused(allocator)
+	releaseClassPair((/* no const */void *)value);
+}
+
+static Boolean areClassPairsEqual(const void *value1, const void *value2) {
+	const t_class_pair *cp1 = value1, *cp2 = value2;
+	if (cp1->class1 != cp2->class1) return false;
+	if (cp1->class2 != cp2->class2) return false;
+	return true;
+}
+
+static CFHashCode classPairHash(const void *value) {
+	const t_class_pair *cp = value;
+	return classHash(cp->class1) + CFHash(cp->class2);
+}
+
 
 @interface NSObject ()
 
@@ -246,14 +321,12 @@ static CFHashCode helptendersHierarchyHash(const void *value) {
 {
 #pragma unused(helptender)
 	/* Nothing do to here */
-	NSDLog(@"Helptender %@ has been added in HCObjectBaseHelptender", helptender);
 }
 
 + (void)hc_helptenderWillBeRemoved:(id <HCHelptender>)helptender
 {
 #pragma unused(helptender)
 	/* Nothing do to here */
-	NSDLog(@"Helptender %@ will be removed in HCObjectBaseHelptender", helptender);
 }
 
 - (Class)class
@@ -270,7 +343,8 @@ static CFHashCode helptendersHierarchyHash(const void *value) {
 	while ((n = self.hc_extenders.count) > 0)
 		[self hc_removeExtender:self.hc_extenders[n-1] atIndex:n-1];
 	
-	[super dealloc];
+	if (self.hc_isExtended) HELPTENDER_CALL_SUPER_NO_ARGS(HCObjectBaseHelptender);
+	else                    [super dealloc];
 }
 
 - (BOOL)hc_isExtended
@@ -399,6 +473,8 @@ static CFMutableDictionaryRef helptendersByProtocol = NULL;
 static CFMutableDictionaryRef runtimeHelptendersByHierarchy = NULL;
 /* Keys are Class, values are CFSetRef, which contains Class */
 static CFMutableDictionaryRef originalHelptendersFromRuntimeHelptender = NULL;
+/* Keys are t_class_pair*, values are CFNumber */
+static CFMutableDictionaryRef classLevelFromOriginalAndRuntimeHelptender = NULL;
 
 static CFMutableDictionaryRef sharedHelptendersByProtocol(void) {
 	static dispatch_once_t onceToken;
@@ -451,6 +527,24 @@ static CFMutableDictionaryRef sharedOriginalHelptendersFromRuntimeHelptender(voi
 	
 	NSCAssert(originalHelptendersFromRuntimeHelptender != NULL, @"Got NULL originalHelptenderFromRuntimeHelptender...");
 	return originalHelptendersFromRuntimeHelptender;
+}
+
+static CFMutableDictionaryRef sharedClassLevelFromOriginalAndRuntimeHelptender() {
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		CFDictionaryKeyCallBacks keyCallbacks = {
+			.version         = 0,
+			.retain          = &retainClassPairFromDic,
+			.release         = &releaseClassPairFromDic,
+			.copyDescription = NULL,
+			.equal           = &areClassPairsEqual,
+			.hash            = &classPairHash
+		};
+		classLevelFromOriginalAndRuntimeHelptender = CFDictionaryCreateMutable(kCFAllocatorDefault, 0, &keyCallbacks, &kCFTypeDictionaryValueCallBacks);
+	});
+	
+	NSCAssert(classLevelFromOriginalAndRuntimeHelptender != NULL, @"Got NULL originalHelptenderFromRuntimeHelptender...");
+	return classLevelFromOriginalAndRuntimeHelptender;
 }
 
 /* Returns NO if the baseProtocol conforms to protocol HCExtender, but the
@@ -540,7 +634,8 @@ static Class classForObjectExtendedWith(NSObject *object, NSArray *extenders) {
 		/* The runtime class has not been created yet. Let's create it! */
 		CFIndex nHelptenders = CFSetGetCount(hh->helptenders);
 		CFMutableDictionaryRef ohfrh = sharedOriginalHelptendersFromRuntimeHelptender();
-		NSDLog(@"Creating runtime helptender for base class %@, with %ld helptender(s)", NSStringFromClass(hh->baseClass), (long)nHelptenders);
+		CFMutableDictionaryRef clfoarh = sharedClassLevelFromOriginalAndRuntimeHelptender();
+		NSDLog(@"Creating runtime helptender for base class %s, with %ld helptender(s)", class_getName(hh->baseClass), (long)nHelptenders);
 		
 		CFArrayCallBacks objectCallbacks = {
 			.version         = 0,
@@ -569,7 +664,9 @@ static Class classForObjectExtendedWith(NSObject *object, NSArray *extenders) {
 			free(baseClassName); baseClassName = newClassName;
 		}
 		
+		CFIndex level = 0;
 		ret = hh->baseClass;
+		CFMutableDictionaryRef tempLevels = CFDictionaryCreateMutable(kCFAllocatorDefault, nHelptenders, NULL /* Keys are Class */, &kCFTypeDictionaryValueCallBacks);
 		for (CFIndex i = 0; i < nHelptenders; ++i) {
 			const t_helptender *curHelptender = CFArrayGetValueAtIndex(helptendersArray, i);
 			const t_helptender *prevHelptender = (i > 0? CFArrayGetValueAtIndex(helptendersArray, i - 1): NULL);
@@ -585,6 +682,8 @@ static Class classForObjectExtendedWith(NSObject *object, NSArray *extenders) {
 					[NSException raise:@"Cannot Allocate Class Pair" format:@"Got an error allocating a class pair with name %s. Does the class name already exist in the runtime?", newClassName];
 				
 				free(newClassName);
+				
+				++level;
 			}
 			
 			/* We have created the new class. Let's add the methods of the original helptender to it. */
@@ -603,11 +702,39 @@ static Class classForObjectExtendedWith(NSObject *object, NSArray *extenders) {
 			}
 			CFSetAddValue(registeredClasses, curHelptender->helptenderClass);
 			
+			/* Let's add the level of the class to the temp levels dictionary.
+			 * After the final class is created, we fill
+			 * classLevelFromOriginalAndRuntimeHelptender from the temp levels. */
+			CFNumberRef n = CFNumberCreate(kCFAllocatorDefault, kCFNumberCFIndexType, &level);
+			CFDictionarySetValue(tempLevels, curHelptender->helptenderClass, n);
+			CFRelease(n);
+			
 			if (nextHelptender == NULL || curHelptender->extended != nextHelptender->extended)
 				/* The runtime helptender is complete. Let's register it in the runtime. */
 				objc_registerClassPair(ret);
 		}
 		
+		/* Let's fill classLevelFromOriginalAndRuntimeHelptender from tempLevels. */
+		CFIndex maxLevel = level + 1;
+		CFIndex n = CFDictionaryGetCount(tempLevels);
+		Class *keys = malloc(sizeof(Class) * n);
+		CFNumberRef *values = malloc(sizeof(CFNumberRef) * n);
+		CFDictionaryGetKeysAndValues(tempLevels, (const void **)keys, (const void **)values);
+		for (CFIndex i = 0; i < n; ++i) {
+			t_class_pair *cp = createClassPair(ret, keys[i]);
+			NSCAssert(CFDictionaryGetValue(clfoarh, cp) == NULL, @"***** INTERNAL ERROR: We shouldn't have the class pair %s/%s registered for class level.", class_getName(cp->class1), class_getName(cp->class2));
+			CFIndex newLevel = 0;
+			CFNumberGetValue(values[i], kCFNumberCFIndexType, &newLevel);
+			newLevel = maxLevel - newLevel;
+			CFNumberRef newLevelNumber = CFNumberCreate(kCFAllocatorDefault, kCFNumberCFIndexType, &newLevel);
+			CFDictionarySetValue(clfoarh, cp, newLevelNumber);
+			CFRelease(newLevelNumber);
+			releaseClassPair(cp);
+		}
+		free(values); values = NULL;
+		free(keys); keys = NULL;
+		
+		CFRelease(tempLevels);
 		CFRelease(helptendersArray);
 		CFDictionarySetValue(sharedRuntimeHelptendersByHierarchy(), hh, ret);
 	}
@@ -665,6 +792,8 @@ static Class changeClassOfObjectNotifyingHelptenders(NSObject *object, Class new
 	
 	return originalActualObjectClass;
 }
+
+
 
 @implementation NSObject (_Extender)
 /* Implements only necessary methods from the Extender category defined in the
@@ -732,6 +861,28 @@ static Class changeClassOfObjectNotifyingHelptenders(NSObject *object, Class new
 	NSDLog(@"Added extender %@ to object %@", extender, self);
 	
 	return YES;
+}
+
+@end
+
+
+
+@implementation NSObject (ForHelptendersOnly)
+
+- (Class)getSuperClassWithOriginalHelptenderClass:(Class)originalHelptenderClass
+{
+	t_class_pair classPair = {.class1 = object_getClass(self), .class2 = originalHelptenderClass, .retainCount = NSUIntegerMax};
+	CFNumberRef n = CFDictionaryGetValue(sharedClassLevelFromOriginalAndRuntimeHelptender(), &classPair);
+	NSCAssert(n != NULL, @"***** INTERNAL ERROR: Got NULL level for class pair %s/%s.", class_getName(classPair.class1), class_getName(classPair.class2));
+	CFIndex level = 0;
+	CFNumberGetValue(n, kCFNumberCFIndexType, &level);
+	NSCAssert(level > 0, @"***** INTERNAL ERROR: Got invalid level %lld for class pair %s/%s.", (long long)level, class_getName(classPair.class1), class_getName(classPair.class2));
+	
+	Class ret = classPair.class1;
+	for (CFIndex i = 0; i < level; ++i)
+		ret = class_getSuperclass(ret);
+	
+	return ret;
 }
 
 @end

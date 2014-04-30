@@ -25,6 +25,9 @@
 
 
 
+/* Use HELPTENDER_CALL_SUPER_NO_ARGS (see HCHelptenderUtils.h) to call super in
+ * a helptender. Do *NOT* call [super method]. Ever. */
+
 @protocol HCHelptender <NSObject>
 @required
 
@@ -82,11 +85,11 @@
 - (BOOL)hc_addExtender:(NSObject <HCExtender> *)extender;
 /* Removes given extender. Returns YES if found (and removed), NO if not.
  * This method cannot fail.
- * It shouldn't be overridden (override hc_removeObjectExtender:atIndex: instead). */
+ * It shouldn't be overridden (override hc_removeExtender:atIndex: instead). */
 - (BOOL)hc_removeExtender:(NSObject <HCExtender> *)extender;
 /* Removes all extenders with a given class from the extended object. Returns
  * the number of extenders removed.
- * It shouldn't be overridden (override hc_removeObjectExtender:atIndex:). */
+ * It shouldn't be overridden (override hc_removeExtender:atIndex:). */
 - (NSUInteger)hc_removeExtendersOfClass:(Class <HCExtender>)extenderClass;
 
 /* Remove the given extender at the given index. Throw an exception if the index
@@ -103,3 +106,7 @@
 - (BOOL)hc_isExtenderAdded:(NSObject <HCExtender> *)extender;
 
 @end
+
+#define CHECKED_ADD_EXTENDER(receiver, extender) \
+	if (((receiver) != nil) && ![(receiver) hc_addExtender:(extender)]) \
+		[NSException raise:@"Cannot add extender" format:@"Tried to add extender %@ to %@, but it failed.", (extender), (receiver)]
