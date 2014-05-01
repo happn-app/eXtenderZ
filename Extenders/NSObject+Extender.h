@@ -25,7 +25,7 @@
 
 
 
-/* Use HELPTENDER_CALL_SUPER_NO_ARGS (see HCHelptenderUtils.h) to call super in
+/* Use HELPTENDER_CALL_SUPER_* macros (see HCHelptenderUtils.h) to call super in
  * a helptender. Do *NOT* call [super method]. Ever. */
 
 @protocol HCHelptender <NSObject>
@@ -45,15 +45,7 @@
 
 
 
-/* WARNING: Adding/removing an extender is *not* thread-safe.
- * Most of the methods here only work in object that are extended by at least
- * one extender. Methods that are safe to use on any objects are:
- *    * +hc_registerClass:asHelptenderForProtocol:
- *    * -hc_isExtended
- *    * -hc_extenders
- *    * -hc_addExtender:
- * Other methods should not be called on objects whose method hc_isExtended
- * returns NO. */
+/* WARNING: Adding/removing an extender is *not* thread-safe. */
 @interface NSObject (Extender)
 
 /* Must be called in the +load method of any extender helper (helptender) class.
@@ -71,7 +63,7 @@
 - (NSArray *)hc_extendersConformingToProtocol:(Protocol *)p; /* Cached. */
 /* This method can safely be subclassed, as long as super is called at the
  * beginning of the override (the result of the call to super should be checked
- * too).
+ * too, and if NO, the override should return NO right away).
  * This method is the only way to add an extender to an object. It returns YES
  * if the extender was added, NO if it was not (the extender refused to be added
  * or it was already added to the object).
@@ -100,7 +92,7 @@
  * extender is removed. */
 - (void)hc_removeExtender:(NSObject <HCExtender> *)extender atIndex:(NSUInteger)idx;
 
-- (id <HCExtender>)hc_firstExtenderOfClass:(Class <HCExtender>)extenderClass;
+- (NSObject <HCExtender> *)hc_firstExtenderOfClass:(Class <HCExtender>)extenderClass;
 
 /* Returns YES if the extender was added to the object, else NO. */
 - (BOOL)hc_isExtenderAdded:(NSObject <HCExtender> *)extender;

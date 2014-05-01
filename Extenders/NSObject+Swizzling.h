@@ -71,13 +71,13 @@ typedef IMP *IMPPointer;
  *      know a thing or two about swizzling, you call the original
  *      implementation of setBackgroundColor: in your custom implementation. As
  *      you swizzled UIView's implementation of the selector, you would expect
- *      to be called in you custom implementation of UIView's
+ *      to be called in your custom implementation of UIView's
  *      setBackgroundColor:. But you won't: as the method was not swizzled when
  *      you swizzled UIButton, the actual original implementation of UIView will
  *      be called.
  *    * fixChildrenSwizzling, if set to YES will fix this problem for you: Each
  *      time a selector is swizzled, the store will be kept along with the class
- *      on which the swizzling was made. When a superclass swizzled a method a
+ *      on which the swizzling was made. When a superclass swizzles a method a
  *      child swizzled, the store of the child will be updated to point to the
  *      new original implementation.
  *      This also works if there was no original implementation (store set to

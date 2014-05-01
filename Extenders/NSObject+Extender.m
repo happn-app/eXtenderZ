@@ -31,12 +31,14 @@ static Class changeClassOfObjectNotifyingHelptenders(NSObject *object, Class new
  * addMethodForPropertyNamed:inClass: to create the selector name and type
  * for the added selector. */
 static char *copyStrs(const char * restrict str1, const char * restrict str2, const char * restrict str3);
+static char *auto_sprintf(char * restrict buffer, size_t buffer_size, BOOL * restrict has_malloced, const char * restrict format, ...);
 
 static void addToSet(const void *value, void *context);
 static void removeFromSet(const void *value, void *context);
 
 
 /* ************* Utilities ************* */
+#pragma mark - Utilities
 
 static char *copyStrs(const char * restrict str1, const char * restrict str2, const char * restrict str3) {
 	char *strCopy = NULL;
@@ -95,7 +97,8 @@ static CFHashCode protocolHash(const void *value) {
 	return ret;
 }
 
-#pragma mark Helptenders
+/* ************* Helptenders ************* */
+#pragma mark - Helptenders
 
 typedef struct s_helptender {
 	Class extended;        /* The class the helptender extends */
@@ -176,6 +179,7 @@ CFComparisonResult compareHelptenders(const void *val1, const void *val2, void *
 	return kCFCompareEqualTo;
 }
 
+/* ************* Helptenders Hierarchy ************* */
 #pragma mark - Helptenders Hierarchy
 
 typedef struct s_helptenders_hierarchy {
@@ -239,6 +243,7 @@ static CFHashCode helptendersHierarchyHash(const void *value) {
 	return classHash(hh->baseClass) + CFHash(hh->helptenders);
 }
 
+/* ************* Class Pair ************* */
 #pragma mark - Class Pair
 
 typedef struct s_class_pair {
@@ -293,6 +298,8 @@ static CFHashCode classPairHash(const void *value) {
 	const t_class_pair *cp = value;
 	return classHash(cp->class1) + CFHash(cp->class2);
 }
+
+#pragma mark -
 
 @interface NSObject ()
 
@@ -423,7 +430,7 @@ static CFHashCode classPairHash(const void *value) {
 	}
 	
 	[[self hc_extendersCreateIfNotExist:YES] addObject:extender];
-	objc_setAssociatedObject(self, &EXTENDERS_BY_PROTOCOL_KEY, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+	objc_setAssociatedObject(self, &EXTENDERS_BY_PROTOCOL_KEY, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC); /* Clear the extenders by protocol cache */
 	NSDLog(@"Added extender %@ to object %@", extender, self);
 	
 	return YES;
@@ -445,13 +452,13 @@ static CFHashCode classPairHash(const void *value) {
 	NSMutableArray *e = self.hc_extenders;
 	NSParameterAssert(e[idx] == extender);
 	
-	NSDLog(@"Removing extender %@ from object %p <%@>", extender, self, NSStringFromClass(self.class));
+	NSDLog(@"Removing extender %@ from object %p <%s>", extender, self, class_getName(self.class));
 	[extender prepareObjectForRemovalOfExtender:self];
 	[e removeObjectAtIndex:idx];
-	objc_setAssociatedObject(self, &EXTENDERS_BY_PROTOCOL_KEY, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+	objc_setAssociatedObject(self, &EXTENDERS_BY_PROTOCOL_KEY, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC); /* Clear the extenders by protocol cache */
 	if (e.count == 0) {
-		e = nil;
 		objc_setAssociatedObject(self, &EXTENDERS_KEY, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+		e = nil;
 	}
 	
 	Class c = classForObjectExtendedWith(self, e);
@@ -485,7 +492,7 @@ static CFHashCode classPairHash(const void *value) {
 	return nRemoved;
 }
 
-- (id <HCExtender>)hc_firstExtenderOfClass:(Class <HCExtender>)extenderClass
+- (NSObject <HCExtender> *)hc_firstExtenderOfClass:(Class <HCExtender>)extenderClass
 {
 	for (NSObject <HCExtender> *extender in self.hc_extenders)
 		if ([extender isKindOfClass:extenderClass])
@@ -552,7 +559,7 @@ static CFMutableDictionaryRef sharedRuntimeHelptendersByHierarchy(void) {
 			.equal           = &areHelptendersHierarchiesEqual,
 			.hash            = &helptendersHierarchyHash
 		};
-		runtimeHelptendersByHierarchy = CFDictionaryCreateMutable(kCFAllocatorDefault, 0, &keyCallbacks, NULL /* Values are class. Class does not need retain/release, and comparison is done by pointer comparison */);
+		runtimeHelptendersByHierarchy = CFDictionaryCreateMutable(kCFAllocatorDefault, 0, &keyCallbacks, NULL /* Values are Class. Class does not need retain/release, and comparison is done by pointer comparison */);
 	});
 	
 	NSCAssert(runtimeHelptendersByHierarchy != NULL, @"Got NULL runtimeHelptendersByHierarchy...");
@@ -643,14 +650,14 @@ static Class classForObjectExtendedWith(NSObject *object, NSArray *extenders) {
 	 *       never be any ambiguity on this order (no classes will be "equal" when
 	 *       compared).
 	 *    For each classes, create and register the runtime helptender if not
-	 *       already registered, else get it. Return the last runtime helptender, it
-	 *       will be the new class of the extended object.
+	 *       already registered, else get it. Return the last runtime helptender,
+	 *       it will be the new class of the extended object.
 	 */
 	
 	t_helptenders_hierarchy *hh = createHelptendersHierarchyWithBaseClass(object.class);
 	for (NSObject <HCExtender> *extender in extenders) {
 		if (![extender conformsToProtocol:@protocol(HCExtender)])
-			[NSException raise:@"Invalid argument" format:@"Got extender %@, of class %@, which does not conform to protocol HCExtender", extender, NSStringFromClass(extender.class)];
+			[NSException raise:@"Invalid argument" format:@"Got extender %@, of class %s, which does not conform to protocol HCExtender", extender, class_getName(extender.class)];
 		
 		for (Class curClass = extender.class; curClass != Nil; curClass = class_getSuperclass(curClass)) {
 			Protocol **protocols = class_copyProtocolList(curClass, NULL);
@@ -686,7 +693,7 @@ static Class classForObjectExtendedWith(NSObject *object, NSArray *extenders) {
 		};
 		CFMutableArrayRef helptendersArray = NULL;
 		{
-			const t_helptender **helptenders = malloc(sizeof(t_helptender *) * nHelptenders);
+			const t_helptender **helptenders = malloc(sizeof(t_helptender*) * nHelptenders);
 			CFSetGetValues(hh->helptenders, (const void **)helptenders);
 			CFArrayRef har = CFArrayCreate(kCFAllocatorDefault, (const void **)helptenders, nHelptenders, &objectCallbacks);
 			free(helptenders);
@@ -718,9 +725,7 @@ static Class classForObjectExtendedWith(NSObject *object, NSArray *extenders) {
 				if (hasMalloced) free(intStr);
 				
 				ret = objc_allocateClassPair(ret, newClassName, 0);
-				if (ret == Nil)
-					[NSException raise:@"Cannot Allocate Class Pair" format:@"Got an error allocating a class pair with name %s. Does the class name already exist in the runtime?", newClassName];
-				
+				if (ret == Nil) [NSException raise:@"Cannot Allocate Class Pair" format:@"Got an error allocating a class pair with name %s. Does the class name already exist in the runtime?", newClassName];
 				free(newClassName);
 				
 				++level;
@@ -803,7 +808,7 @@ static Class changeClassOfObjectNotifyingHelptenders(NSObject *object, Class new
 			CFSetApplyFunction(originalHelptendersClasses, &addToSet, originalHelptendersInObject);
 	}
 	
-	/* Computing original helptenders in the object */
+	/* Computing new helptenders for the object */
 	CFMutableSetRef newHelptendersInObject = CFSetCreateMutable(kCFAllocatorDefault, 0, NULL /* Contains classes */);
 	for (Class curClass = newClass; curClass != Nil; curClass = class_getSuperclass(curClass)) {
 		CFSetRef originalHelptendersClasses = CFDictionaryGetValue(ohfrh, curClass);
@@ -836,8 +841,9 @@ static Class changeClassOfObjectNotifyingHelptenders(NSObject *object, Class new
 
 
 @implementation NSObject (_Extender)
-/* Implements only necessary methods from the Extender category defined in the
- * .h. Other methods are implemented directly in HCObjectBaseHelptender. */
+/* These implementations (except for hc_registerClass:asHelptenderForProtocol:
+ * are only called on a non-extended object. For extended objects, the
+ * implementation in HCObjectBaseHelptender are called. */
 
 + (BOOL)hc_registerClass:(Class)c asHelptenderForProtocol:(Protocol *)protocol
 {
@@ -865,6 +871,12 @@ static Class changeClassOfObjectNotifyingHelptenders(NSObject *object, Class new
 
 - (NSArray *)hc_extenders
 {
+	return nil;
+}
+
+- (NSArray *)hc_extendersConformingToProtocol:(Protocol *)p
+{
+#pragma unused(p)
 	return nil;
 }
 
@@ -899,7 +911,7 @@ static Class changeClassOfObjectNotifyingHelptenders(NSObject *object, Class new
 	[NSException raise:@"Cannot Remove Extender" format:@"Trying to remove an extender on a non-extended object."];
 }
 
-- (id <HCExtender>)hc_firstExtenderOfClass:(Class <HCExtender>)extenderClass
+- (NSObject <HCExtender> *)hc_firstExtenderOfClass:(Class <HCExtender>)extenderClass
 {
 #pragma unused(extenderClass)
 	return nil;
