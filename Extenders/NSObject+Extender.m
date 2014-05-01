@@ -343,8 +343,8 @@ static CFHashCode classPairHash(const void *value) {
 	while ((n = self.hc_extenders.count) > 0)
 		[self hc_removeExtender:self.hc_extenders[n-1] atIndex:n-1];
 	
-	if (self.hc_isExtended) HELPTENDER_CALL_SUPER_NO_ARGS(HCObjectBaseHelptender);
-	else                    [super dealloc];
+	HELPTENDER_CALL_SUPER_NO_ARGS(HCObjectBaseHelptender);
+	if (NO) [super dealloc]; /* Happy compiler is happy */
 }
 
 - (BOOL)hc_isExtended
@@ -919,18 +919,25 @@ static Class changeClassOfObjectNotifyingHelptenders(NSObject *object, Class new
 
 - (Class)getSuperClassWithOriginalHelptenderClass:(Class)originalHelptenderClass
 {
-	t_class_pair classPair = {.class1 = object_getClass(self), .class2 = originalHelptenderClass, .retainCount = NSUIntegerMax};
-	CFNumberRef n = CFDictionaryGetValue(sharedClassLevelFromOriginalAndRuntimeHelptender(), &classPair);
-	NSCAssert(n != NULL, @"***** INTERNAL ERROR: Got NULL level for class pair %s/%s.", class_getName(classPair.class1), class_getName(classPair.class2));
-	CFIndex level = 0;
-	CFNumberGetValue(n, kCFNumberCFIndexType, &level);
-	NSCAssert(level > 0, @"***** INTERNAL ERROR: Got invalid level %lld for class pair %s/%s.", (long long)level, class_getName(classPair.class1), class_getName(classPair.class2));
-	
-	Class ret = classPair.class1;
-	for (CFIndex i = 0; i < level; ++i)
-		ret = class_getSuperclass(ret);
-	
-	return ret;
+	if (self.hc_isExtended) {
+		t_class_pair classPair = {.class1 = object_getClass(self), .class2 = originalHelptenderClass, .retainCount = NSUIntegerMax};
+		CFNumberRef n = CFDictionaryGetValue(sharedClassLevelFromOriginalAndRuntimeHelptender(), &classPair);
+		NSCAssert(n != NULL, @"***** INTERNAL ERROR: Got NULL level for class pair %s/%s.", class_getName(classPair.class1), class_getName(classPair.class2));
+		CFIndex level = 0;
+		CFNumberGetValue(n, kCFNumberCFIndexType, &level);
+		NSCAssert(level > 0, @"***** INTERNAL ERROR: Got invalid level %lld for class pair %s/%s.", (long long)level, class_getName(classPair.class1), class_getName(classPair.class2));
+		
+		Class ret = classPair.class1;
+		for (CFIndex i = 0; i < level; ++i)
+			ret = class_getSuperclass(ret);
+		
+		return ret;
+	} else {
+		return object_getClass(self); /* And not the superclass! We call this
+												 * method in a helptender, expecting to call
+												 * super. We must call the original class
+												 * then. */
+	}
 }
 
 @end
