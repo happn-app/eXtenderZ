@@ -14,6 +14,9 @@
 #import "NSObject+HCUtils.h"
 #import "HCHelptenderUtils.h"
 
+#define ALLOW_KVO_HACK
+#undef ALLOW_KVO_HACK
+
 static char EXTENDERS_KEY; /* Global 0 initialization is fine here. No need to
 									 * change it since the value of the variable is not
 									 * used; only its address. */
@@ -22,6 +25,7 @@ static char EXTENDERS_BY_PROTOCOL_KEY;
 static CFMutableDictionaryRef sharedHelptendersByProtocol(void);
 static CFMutableDictionaryRef sharedRuntimeHelptendersByHierarchy(void);
 static CFMutableDictionaryRef sharedOriginalHelptendersFromRuntimeHelptender(void);
+static CFMutableDictionaryRef sharedClassLevelFromOriginalAndRuntimeHelptender(void);
 static Class classForObjectExtendedWith(NSObject *object, NSArray *extenders);
 static Class changeClassOfObjectNotifyingHelptenders(NSObject *object, Class newClass);
 
@@ -507,12 +511,40 @@ static CFHashCode classPairHash(const void *value) {
 	return (e != nil && [e indexOfObjectIdenticalTo:extender] != NSNotFound);
 }
 
+- (Class)hc_getSuperClassWithOriginalHelptenderClass:(Class)originalHelptenderClass
+{
+	t_class_pair classPair = {.class1 = object_getClass(self), .class2 = originalHelptenderClass, .retainCount = NSUIntegerMax};
+	
+#ifndef ALLOW_KVO_HACK
+	CFNumberRef n = CFDictionaryGetValue(sharedClassLevelFromOriginalAndRuntimeHelptender(), &classPair);
+	NSCAssert(n != NULL, @"***** INTERNAL ERROR: Got NULL level for class pair %s/%s.", class_getName(classPair.class1), class_getName(classPair.class2));
+#else
+	CFNumberRef n = NULL;
+	do {
+		n = CFDictionaryGetValue(sharedClassLevelFromOriginalAndRuntimeHelptender(), &classPair);
+		/* If n is NULL (unregistered class pair), we try with super classes
+		 * because (among others) KVO does ISA-swizzling too and screws the class
+		 * pair registration... */
+	} while (n == NULL && (classPair.class1 = class_getSuperclass(classPair.class1)) != Nil);
+	NSCAssert(n != NULL, @"***** INTERNAL ERROR: Got NULL level for class pair %s (or superclass)/%s.", class_getName(object_getClass(self)), class_getName(classPair.class2));
+#endif
+	CFIndex level = 0;
+	CFNumberGetValue(n, kCFNumberCFIndexType, &level);
+	NSCAssert(level > 0, @"***** INTERNAL ERROR: Got invalid level %lld for class pair %s/%s.", (long long)level, class_getName(classPair.class1), class_getName(classPair.class2));
+	
+	Class ret = classPair.class1;
+	for (CFIndex i = 0; i < level; ++i)
+		ret = class_getSuperclass(ret);
+	
+	return ret;
+}
+
 @end
 
 
 
-/* ************* Implementation of the extender NSObject category ************* */
-#pragma mark - NSObject Category
+/* ************* Helpers ************* */
+#pragma mark - Helpers
 
 /* Keys are Protocol*, values are t_helptender*. */
 static CFMutableDictionaryRef helptendersByProtocol = NULL;
@@ -576,7 +608,7 @@ static CFMutableDictionaryRef sharedOriginalHelptendersFromRuntimeHelptender(voi
 	return originalHelptendersFromRuntimeHelptender;
 }
 
-static CFMutableDictionaryRef sharedClassLevelFromOriginalAndRuntimeHelptender() {
+static CFMutableDictionaryRef sharedClassLevelFromOriginalAndRuntimeHelptender(void) {
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
 		CFDictionaryKeyCallBacks keyCallbacks = {
@@ -840,6 +872,9 @@ static Class changeClassOfObjectNotifyingHelptenders(NSObject *object, Class new
 
 
 
+/* ************* Implementation of the extender NSObject category ************* */
+#pragma mark - NSObject Category
+
 @implementation NSObject (_Extender)
 /* These implementations (except for hc_registerClass:asHelptenderForProtocol:
  * are only called on a non-extended object. For extended objects, the
@@ -923,33 +958,12 @@ static Class changeClassOfObjectNotifyingHelptenders(NSObject *object, Class new
 	return NO;
 }
 
-@end
-
-
-
-@implementation NSObject (ForHelptendersOnly)
-
-- (Class)getSuperClassWithOriginalHelptenderClass:(Class)originalHelptenderClass
+- (Class)hc_getSuperClassWithOriginalHelptenderClass:(Class)originalHelptenderClass
 {
-	if (self.hc_isExtended) {
-		t_class_pair classPair = {.class1 = object_getClass(self), .class2 = originalHelptenderClass, .retainCount = NSUIntegerMax};
-		CFNumberRef n = CFDictionaryGetValue(sharedClassLevelFromOriginalAndRuntimeHelptender(), &classPair);
-		NSCAssert(n != NULL, @"***** INTERNAL ERROR: Got NULL level for class pair %s/%s.", class_getName(classPair.class1), class_getName(classPair.class2));
-		CFIndex level = 0;
-		CFNumberGetValue(n, kCFNumberCFIndexType, &level);
-		NSCAssert(level > 0, @"***** INTERNAL ERROR: Got invalid level %lld for class pair %s/%s.", (long long)level, class_getName(classPair.class1), class_getName(classPair.class2));
-		
-		Class ret = classPair.class1;
-		for (CFIndex i = 0; i < level; ++i)
-			ret = class_getSuperclass(ret);
-		
-		return ret;
-	} else {
-		return object_getClass(self); /* And not the superclass! We call this
-												 * method in a helptender, expecting to call
-												 * super. We must call the original class
-												 * then. */
-	}
+#pragma unused(originalHelptenderClass)
+	return object_getClass(self); /* And not the superclass! We call this method
+											 * in a helptender, expecting to call super. We
+											 * must call the original class then. */
 }
 
 @end
