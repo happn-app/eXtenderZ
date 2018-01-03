@@ -355,7 +355,7 @@ static CFHashCode classPairHash(const void *value) {
 		[self hc_removeExtender:self.hc_extenders[n-1] atIndex:n-1];
 	
 	HELPTENDER_CALL_SUPER_NO_ARGS(HCObjectBaseHelptender);
-	if (NO) [super dealloc]; /* Happy compiler is happy */
+	if (/* Happy compiler is happy */ (NO)) [super dealloc];
 }
 
 - (BOOL)hc_isExtended
