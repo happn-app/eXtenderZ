@@ -1,6 +1,6 @@
 /*
  * NSObject+Extender.h
- * Happn
+ * happn
  *
  * Created by François Lamboley on 4/26/14.
  * Copyright (c) 2014 FTW & Co. All rights reserved.

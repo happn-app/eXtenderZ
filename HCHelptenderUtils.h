@@ -1,6 +1,6 @@
 /*
  * HCHelptenderUtils.h
- * Happn
+ * happn
  *
  * Created by François LAMBOLEY on 30/04/14.
  * Copyright (c) 2014 FTW & Co. All rights reserved.
