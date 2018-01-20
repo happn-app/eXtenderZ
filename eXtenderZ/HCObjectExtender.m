@@ -1,6 +1,6 @@
 /*
  * HCObjectExtender.m
- * Extenders
+ * eXtenderZ
  *
  * Created by François LAMBOLEY on 29/04/14.
  * Copyright (c) 2014 FTW & Co. All rights reserved.

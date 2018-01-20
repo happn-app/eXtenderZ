@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		7B59786C190F9A8300C27B6E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B59786B190F9A8300C27B6E /* Foundation.framework */; };
 		7B59786F190F9A8300C27B6E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B59786E190F9A8300C27B6E /* main.m */; };
-		7B597873190F9A8300C27B6E /* Extenders.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7B597872190F9A8300C27B6E /* Extenders.1 */; };
+		7B597873190F9A8300C27B6E /* eXtenderZ.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7B597872190F9A8300C27B6E /* eXtenderZ.1 */; };
 		7B59787D190F9AB300C27B6E /* NSObject+HCUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B59787A190F9AB300C27B6E /* NSObject+HCUtils.m */; };
 		7B59787E190F9AB300C27B6E /* NSObject+Swizzling.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B59787C190F9AB300C27B6E /* NSObject+Swizzling.m */; };
 		7B597881190F9B0500C27B6E /* NSObject+Extender.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B597880190F9B0500C27B6E /* NSObject+Extender.m */; };
@@ -24,18 +24,18 @@
 			dstPath = /usr/share/man/man1/;
 			dstSubfolderSpec = 0;
 			files = (
-				7B597873190F9A8300C27B6E /* Extenders.1 in CopyFiles */,
+				7B597873190F9A8300C27B6E /* eXtenderZ.1 in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		7B597868190F9A8300C27B6E /* Extenders */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Extenders; sourceTree = BUILT_PRODUCTS_DIR; };
+		7B597868190F9A8300C27B6E /* eXtenderZ */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = eXtenderZ; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B59786B190F9A8300C27B6E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		7B59786E190F9A8300C27B6E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		7B597871190F9A8300C27B6E /* Extenders-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Extenders-Prefix.pch"; sourceTree = "<group>"; };
-		7B597872190F9A8300C27B6E /* Extenders.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = Extenders.1; sourceTree = "<group>"; };
+		7B597871190F9A8300C27B6E /* eXtenderZ-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "eXtenderZ-Prefix.pch"; sourceTree = "<group>"; };
+		7B597872190F9A8300C27B6E /* eXtenderZ.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = eXtenderZ.1; sourceTree = "<group>"; };
 		7B597879190F9AB300C27B6E /* NSObject+HCUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+HCUtils.h"; sourceTree = "<group>"; };
 		7B59787A190F9AB300C27B6E /* NSObject+HCUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+HCUtils.m"; sourceTree = "<group>"; };
 		7B59787B190F9AB300C27B6E /* NSObject+Swizzling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Swizzling.h"; sourceTree = "<group>"; };
@@ -64,7 +64,7 @@
 		7B59785F190F9A8300C27B6E = {
 			isa = PBXGroup;
 			children = (
-				7B59786D190F9A8300C27B6E /* Extenders */,
+				7B59786D190F9A8300C27B6E /* eXtenderZ */,
 				7B59786A190F9A8300C27B6E /* Frameworks */,
 				7B597869190F9A8300C27B6E /* Products */,
 			);
@@ -73,7 +73,7 @@
 		7B597869190F9A8300C27B6E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				7B597868190F9A8300C27B6E /* Extenders */,
+				7B597868190F9A8300C27B6E /* eXtenderZ */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -86,7 +86,7 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		7B59786D190F9A8300C27B6E /* Extenders */ = {
+		7B59786D190F9A8300C27B6E /* eXtenderZ */ = {
 			isa = PBXGroup;
 			children = (
 				7B597882190F9B2900C27B6E /* HCUtils.h */,
@@ -101,16 +101,16 @@
 				7B597885190FDD7000C27B6E /* HCObjectExtender.h */,
 				7B597886190FDD7000C27B6E /* HCObjectExtender.m */,
 				7B59786E190F9A8300C27B6E /* main.m */,
-				7B597872190F9A8300C27B6E /* Extenders.1 */,
+				7B597872190F9A8300C27B6E /* eXtenderZ.1 */,
 				7B597870190F9A8300C27B6E /* Supporting Files */,
 			);
-			path = Extenders;
+			path = eXtenderZ;
 			sourceTree = "<group>";
 		};
 		7B597870190F9A8300C27B6E /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				7B597871190F9A8300C27B6E /* Extenders-Prefix.pch */,
+				7B597871190F9A8300C27B6E /* eXtenderZ-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -118,9 +118,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		7B597867190F9A8300C27B6E /* Extenders */ = {
+		7B597867190F9A8300C27B6E /* eXtenderZ */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 7B597876190F9A8300C27B6E /* Build configuration list for PBXNativeTarget "Extenders" */;
+			buildConfigurationList = 7B597876190F9A8300C27B6E /* Build configuration list for PBXNativeTarget "eXtenderZ" */;
 			buildPhases = (
 				7B597864190F9A8300C27B6E /* Sources */,
 				7B597865190F9A8300C27B6E /* Frameworks */,
@@ -130,9 +130,9 @@
 			);
 			dependencies = (
 			);
-			name = Extenders;
+			name = eXtenderZ;
 			productName = Extenders;
-			productReference = 7B597868190F9A8300C27B6E /* Extenders */;
+			productReference = 7B597868190F9A8300C27B6E /* eXtenderZ */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -144,7 +144,7 @@
 				LastUpgradeCheck = 0920;
 				ORGANIZATIONNAME = "FTW & Co";
 			};
-			buildConfigurationList = 7B597863190F9A8300C27B6E /* Build configuration list for PBXProject "Extenders" */;
+			buildConfigurationList = 7B597863190F9A8300C27B6E /* Build configuration list for PBXProject "eXtenderZ" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -156,7 +156,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				7B597867190F9A8300C27B6E /* Extenders */,
+				7B597867190F9A8300C27B6E /* eXtenderZ */,
 			);
 		};
 /* End PBXProject section */
@@ -278,7 +278,7 @@
 			buildSettings = {
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Extenders/Extenders-Prefix.pch";
+				GCC_PREFIX_HEADER = "eXtenderZ/eXtenderZ-Prefix.pch";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -288,7 +288,7 @@
 			buildSettings = {
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Extenders/Extenders-Prefix.pch";
+				GCC_PREFIX_HEADER = "eXtenderZ/eXtenderZ-Prefix.pch";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -296,7 +296,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		7B597863190F9A8300C27B6E /* Build configuration list for PBXProject "Extenders" */ = {
+		7B597863190F9A8300C27B6E /* Build configuration list for PBXProject "eXtenderZ" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7B597874190F9A8300C27B6E /* Debug */,
@@ -305,7 +305,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		7B597876190F9A8300C27B6E /* Build configuration list for PBXNativeTarget "Extenders" */ = {
+		7B597876190F9A8300C27B6E /* Build configuration list for PBXNativeTarget "eXtenderZ" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7B597877190F9A8300C27B6E /* Debug */,
