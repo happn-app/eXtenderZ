@@ -1,0 +1,13 @@
+framework module eXtenderZ {
+  umbrella header "eXtenderZ.h"
+
+  export *
+  module * {
+	  export *
+  }
+  
+  explicit module HelptenderUtils {
+	  header "HelptenderUtils.h"
+	  export *
+  }
+}

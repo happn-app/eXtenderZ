@@ -24,10 +24,10 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		7B3176042015278600AD66FD /* HPNHelptenderUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B3176012015278600AD66FD /* HPNHelptenderUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7B3176052015278600AD66FD /* HPNHelptenderUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B3176012015278600AD66FD /* HPNHelptenderUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7B3176062015278600AD66FD /* HPNHelptenderUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B3176012015278600AD66FD /* HPNHelptenderUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7B3176072015278600AD66FD /* HPNHelptenderUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B3176012015278600AD66FD /* HPNHelptenderUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7B3176042015278600AD66FD /* HelptenderUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B3176012015278600AD66FD /* HelptenderUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7B3176052015278600AD66FD /* HelptenderUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B3176012015278600AD66FD /* HelptenderUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7B3176062015278600AD66FD /* HelptenderUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B3176012015278600AD66FD /* HelptenderUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7B3176072015278600AD66FD /* HelptenderUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B3176012015278600AD66FD /* HelptenderUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7B3176082015278600AD66FD /* NSObject+eXtenderZ.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B3176022015278600AD66FD /* NSObject+eXtenderZ.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7B3176092015278600AD66FD /* NSObject+eXtenderZ.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B3176022015278600AD66FD /* NSObject+eXtenderZ.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7B31760A2015278600AD66FD /* NSObject+eXtenderZ.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B3176022015278600AD66FD /* NSObject+eXtenderZ.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -115,13 +115,14 @@
 /* Begin PBXFileReference section */
 		7B21BACE2003B2C600DFF758 /* Readme.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Readme.md; sourceTree = "<group>"; };
 		7B21BAD12003BF0600DFF758 /* License.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = License.txt; sourceTree = "<group>"; };
-		7B3176012015278600AD66FD /* HPNHelptenderUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPNHelptenderUtils.h; sourceTree = "<group>"; };
+		7B3176012015278600AD66FD /* HelptenderUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelptenderUtils.h; sourceTree = "<group>"; };
 		7B3176022015278600AD66FD /* NSObject+eXtenderZ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+eXtenderZ.h"; sourceTree = "<group>"; };
 		7B3176032015278600AD66FD /* NSObject+eXtenderZ.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+eXtenderZ.m"; sourceTree = "<group>"; };
 		7B317610201527E900AD66FD /* eXtenderZ.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = eXtenderZ.h; sourceTree = "<group>"; };
 		7B3176152015282100AD66FD /* ObjcCategoryLibrary.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ObjcCategoryLibrary.c; sourceTree = "<group>"; };
 		7B31761C20152B1D00AD66FD /* NSObject+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Utils.h"; sourceTree = "<group>"; };
 		7B31761D20152B1E00AD66FD /* NSObject+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Utils.m"; sourceTree = "<group>"; };
+		7B31764E2015348200AD66FD /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		7B7A34BF20027B4600348DF4 /* eXtenderZ.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = eXtenderZ.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B7A34C720027B4700348DF4 /* eXtenderZ-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "eXtenderZ-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B8BD01A20026E8C009BE667 /* eXtenderZ.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = eXtenderZ.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -227,7 +228,7 @@
 		7B8BD01220026AF1009BE667 /* eXtenderZ */ = {
 			isa = PBXGroup;
 			children = (
-				7B3176012015278600AD66FD /* HPNHelptenderUtils.h */,
+				7B3176012015278600AD66FD /* HelptenderUtils.h */,
 				7B31761C20152B1D00AD66FD /* NSObject+Utils.h */,
 				7B31761D20152B1E00AD66FD /* NSObject+Utils.m */,
 				7B3176022015278600AD66FD /* NSObject+eXtenderZ.h */,
@@ -243,6 +244,7 @@
 				7B8BD01D20026E8C009BE667 /* Framework-Info.plist */,
 				7B8BD02920026E8C009BE667 /* Test-Info.plist */,
 				7B317610201527E900AD66FD /* eXtenderZ.h */,
+				7B31764E2015348200AD66FD /* module.modulemap */,
 			);
 			path = "Xcode Supporting Files";
 			sourceTree = "<group>";
@@ -270,7 +272,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7B3176052015278600AD66FD /* HPNHelptenderUtils.h in Headers */,
+				7B3176052015278600AD66FD /* HelptenderUtils.h in Headers */,
 				7B3176092015278600AD66FD /* NSObject+eXtenderZ.h in Headers */,
 				7B317612201527E900AD66FD /* eXtenderZ.h in Headers */,
 				7B31761F20152B1E00AD66FD /* NSObject+Utils.h in Headers */,
@@ -281,7 +283,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7B3176042015278600AD66FD /* HPNHelptenderUtils.h in Headers */,
+				7B3176042015278600AD66FD /* HelptenderUtils.h in Headers */,
 				7B3176082015278600AD66FD /* NSObject+eXtenderZ.h in Headers */,
 				7B317611201527E900AD66FD /* eXtenderZ.h in Headers */,
 				7B31761E20152B1E00AD66FD /* NSObject+Utils.h in Headers */,
@@ -292,7 +294,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7B3176072015278600AD66FD /* HPNHelptenderUtils.h in Headers */,
+				7B3176072015278600AD66FD /* HelptenderUtils.h in Headers */,
 				7B31760B2015278600AD66FD /* NSObject+eXtenderZ.h in Headers */,
 				7B317614201527E900AD66FD /* eXtenderZ.h in Headers */,
 				7B31762120152B1E00AD66FD /* NSObject+Utils.h in Headers */,
@@ -303,7 +305,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7B3176062015278600AD66FD /* HPNHelptenderUtils.h in Headers */,
+				7B3176062015278600AD66FD /* HelptenderUtils.h in Headers */,
 				7B31760A2015278600AD66FD /* NSObject+eXtenderZ.h in Headers */,
 				7B317613201527E900AD66FD /* eXtenderZ.h in Headers */,
 				7B31762020152B1E00AD66FD /* NSObject+Utils.h in Headers */,
@@ -808,6 +810,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Xcode Supporting Files/module.modulemap";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.happn.eXtenderZ-tvOS";
 				PRODUCT_NAME = eXtenderZ;
 				SDKROOT = appletvos;
@@ -836,6 +839,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Xcode Supporting Files/module.modulemap";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.happn.eXtenderZ-tvOS";
 				PRODUCT_NAME = eXtenderZ;
 				SDKROOT = appletvos;
@@ -899,6 +903,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Xcode Supporting Files/module.modulemap";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.happn.eXtenderZ-macOS";
 				PRODUCT_NAME = eXtenderZ;
 				SDKROOT = macosx;
@@ -929,6 +934,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Xcode Supporting Files/module.modulemap";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.happn.eXtenderZ-macOS";
 				PRODUCT_NAME = eXtenderZ;
 				SDKROOT = macosx;
@@ -988,6 +994,7 @@
 				INFOPLIST_FILE = "Xcode Supporting Files/Framework-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Xcode Supporting Files/module.modulemap";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.happn.eXtenderZ-watchOS";
 				PRODUCT_NAME = eXtenderZ;
 				SDKROOT = watchos;
@@ -1016,6 +1023,7 @@
 				INFOPLIST_FILE = "Xcode Supporting Files/Framework-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Xcode Supporting Files/module.modulemap";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.happn.eXtenderZ-watchOS";
 				PRODUCT_NAME = eXtenderZ;
 				SDKROOT = watchos;
@@ -1042,6 +1050,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Xcode Supporting Files/module.modulemap";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.happn.eXtenderZ-iOS";
 				PRODUCT_NAME = eXtenderZ;
 				SDKROOT = iphoneos;
@@ -1070,6 +1079,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Xcode Supporting Files/module.modulemap";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.happn.eXtenderZ-iOS";
 				PRODUCT_NAME = eXtenderZ;
 				SDKROOT = iphoneos;

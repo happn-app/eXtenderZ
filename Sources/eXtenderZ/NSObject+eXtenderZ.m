@@ -12,7 +12,7 @@
 @import ObjectiveC.runtime;
 
 #import "NSObject+Utils.h"
-#import "HPNHelptenderUtils.h"
+#import "HelptenderUtils.h"
 
 
 
@@ -360,7 +360,7 @@ static CFHashCode classPairHash(const void *value) {
 	while ((n = self.hpn_extenders.count) > 0)
 		[self hpn_removeExtender:self.hpn_extenders[n-1] atIndex:n-1];
 	
-	((void (*)(id, SEL))HELPTENDER_CALL_SUPER_NO_ARGS(HPNObjectBaseHelptender));
+	((void (*)(id, SEL))HPN_HELPTENDER_CALL_SUPER_NO_ARGS(HPNObjectBaseHelptender));
 	if (/* DISABLES CODE */ (NO)) [super dealloc]; /* Happy compiler is happy */
 }
 

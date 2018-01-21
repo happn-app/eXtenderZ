@@ -1,5 +1,5 @@
 /*
- * HPNHelptenderUtils.h
+ * HelptenderUtils.h
  * happn
  *
  * Created by François LAMBOLEY on 30/04/14.
@@ -10,13 +10,13 @@
 
 
 
-#define HELPTENDER_CALL_SUPER_NO_ARGS(className) \
+#define HPN_HELPTENDER_CALL_SUPER_NO_ARGS(className) \
 	class_getMethodImplementation([self hpn_getSuperClassWithOriginalHelptenderClass:className.class], _cmd))(self, _cmd
 
-#define HELPTENDER_CALL_SUPER(className, ...) \
+#define HPN_HELPTENDER_CALL_SUPER(className, ...) \
 	class_getMethodImplementation([self hpn_getSuperClassWithOriginalHelptenderClass:className.class], _cmd))(self, _cmd, __VA_ARGS__
 
-#define HELPTENDER_CALL_SUPER_WITH_SEL_NAME(className, sel_name, ...) \
+#define HPN_HELPTENDER_CALL_SUPER_WITH_SEL_NAME(className, sel_name, ...) \
 	class_getMethodImplementation([self hpn_getSuperClassWithOriginalHelptenderClass:className.class], @selector(sel_name)))(self, @selector(sel_name), __VA_ARGS__
 
 
@@ -29,7 +29,7 @@
 
 /* *** */
 
-#define DYNAMIC_ACCESSOR(type, name, key)                                                                                                                                                \
+#define HPN_DYNAMIC_ACCESSOR(type, name, key)                                                                                                                                                \
 	- (type *)name                                                                                                                                                                        \
 	{                                                                                                                                                                                     \
 		return [self name##CreateIfNotExist:NO];                                                                                                                                           \
