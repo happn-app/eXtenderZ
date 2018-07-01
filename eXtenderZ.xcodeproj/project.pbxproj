@@ -813,7 +813,6 @@
 				INFOPLIST_FILE = "Xcode Supporting Files/Framework-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MACH_O_TYPE = staticlib;
 				MODULEMAP_FILE = "Xcode Supporting Files/module.modulemap";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.happn.eXtenderZ-tvOS";
 				PRODUCT_NAME = eXtenderZ;
@@ -842,7 +841,6 @@
 				INFOPLIST_FILE = "Xcode Supporting Files/Framework-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MACH_O_TYPE = staticlib;
 				MODULEMAP_FILE = "Xcode Supporting Files/module.modulemap";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.happn.eXtenderZ-tvOS";
 				PRODUCT_NAME = eXtenderZ;
@@ -906,7 +904,6 @@
 				INFOPLIST_FILE = "Xcode Supporting Files/Framework-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACH_O_TYPE = staticlib;
 				MODULEMAP_FILE = "Xcode Supporting Files/module.modulemap";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.happn.eXtenderZ-macOS";
 				PRODUCT_NAME = eXtenderZ;
@@ -937,7 +934,6 @@
 				INFOPLIST_FILE = "Xcode Supporting Files/Framework-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACH_O_TYPE = staticlib;
 				MODULEMAP_FILE = "Xcode Supporting Files/module.modulemap";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.happn.eXtenderZ-macOS";
 				PRODUCT_NAME = eXtenderZ;
@@ -1053,7 +1049,6 @@
 				INFOPLIST_FILE = "Xcode Supporting Files/Framework-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MACH_O_TYPE = staticlib;
 				MODULEMAP_FILE = "Xcode Supporting Files/module.modulemap";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.happn.eXtenderZ-iOS";
 				PRODUCT_NAME = eXtenderZ;
@@ -1082,7 +1077,6 @@
 				INFOPLIST_FILE = "Xcode Supporting Files/Framework-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MACH_O_TYPE = staticlib;
 				MODULEMAP_FILE = "Xcode Supporting Files/module.modulemap";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.happn.eXtenderZ-iOS";
 				PRODUCT_NAME = eXtenderZ;
