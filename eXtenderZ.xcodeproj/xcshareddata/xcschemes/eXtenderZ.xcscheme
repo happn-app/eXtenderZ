@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0930"
+   LastUpgradeVersion = "1010"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "7BB52E42200279EA007CAD7B"
+               BlueprintIdentifier = "7B8BD01920026E8C009BE667"
                BuildableName = "eXtenderZ.framework"
-               BlueprintName = "eXtenderZ-watchOS"
+               BlueprintName = "eXtenderZ"
                ReferencedContainer = "container:eXtenderZ.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -28,7 +28,26 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "7B8BD02120026E8C009BE667"
+               BuildableName = "eXtenderZ-Tests.xctest"
+               BlueprintName = "eXtenderZ-Tests"
+               ReferencedContainer = "container:eXtenderZ.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "7B8BD01920026E8C009BE667"
+            BuildableName = "eXtenderZ.framework"
+            BlueprintName = "eXtenderZ"
+            ReferencedContainer = "container:eXtenderZ.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
@@ -45,9 +64,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "7BB52E42200279EA007CAD7B"
+            BlueprintIdentifier = "7B8BD01920026E8C009BE667"
             BuildableName = "eXtenderZ.framework"
-            BlueprintName = "eXtenderZ-watchOS"
+            BlueprintName = "eXtenderZ"
             ReferencedContainer = "container:eXtenderZ.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -63,9 +82,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "7BB52E42200279EA007CAD7B"
+            BlueprintIdentifier = "7B8BD01920026E8C009BE667"
             BuildableName = "eXtenderZ.framework"
-            BlueprintName = "eXtenderZ-watchOS"
+            BlueprintName = "eXtenderZ"
             ReferencedContainer = "container:eXtenderZ.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
