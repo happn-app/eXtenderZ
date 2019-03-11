@@ -21,7 +21,8 @@
 		7B3176162015282100AD66FD /* ObjcCategoryLibrary.c in Sources */ = {isa = PBXBuildFile; fileRef = 7B3176152015282100AD66FD /* ObjcCategoryLibrary.c */; };
 		7B31761E20152B1E00AD66FD /* NSObject+Utils.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B31761C20152B1D00AD66FD /* NSObject+Utils.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7B31762220152B1E00AD66FD /* NSObject+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B31761D20152B1E00AD66FD /* NSObject+Utils.m */; };
-		7B8BD02320026E8C009BE667 /* eXtenderZ.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B8BD01A20026E8C009BE667 /* eXtenderZ.framework */; };
+		7B80A9FE2236DB3000CECD67 /* HPNSimpleObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B80A9FD2236DB3000CECD67 /* HPNSimpleObject.m */; };
+		7B80AA052236E30A00CECD67 /* eXtenderZ.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B8BD01A20026E8C009BE667 /* eXtenderZ.framework */; };
 		7B8BD036200274B9009BE667 /* eXtenderZTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B8BD034200274B9009BE667 /* eXtenderZTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -46,7 +47,10 @@
 		7B3176152015282100AD66FD /* ObjcCategoryLibrary.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ObjcCategoryLibrary.c; sourceTree = "<group>"; };
 		7B31761C20152B1D00AD66FD /* NSObject+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Utils.h"; sourceTree = "<group>"; };
 		7B31761D20152B1E00AD66FD /* NSObject+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Utils.m"; sourceTree = "<group>"; };
-		7B31764E2015348200AD66FD /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
+		7B31764E2015348200AD66FD /* module_eXtenderZ.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module_eXtenderZ.modulemap; sourceTree = "<group>"; };
+		7B80A9FB2236DB2F00CECD67 /* eXtenderZ-Tests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "eXtenderZ-Tests-Bridging-Header.h"; sourceTree = "<group>"; };
+		7B80A9FC2236DB3000CECD67 /* HPNSimpleObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HPNSimpleObject.h; sourceTree = "<group>"; };
+		7B80A9FD2236DB3000CECD67 /* HPNSimpleObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HPNSimpleObject.m; sourceTree = "<group>"; };
 		7B8BD01A20026E8C009BE667 /* eXtenderZ.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = eXtenderZ.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B8BD01D20026E8C009BE667 /* Framework-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Framework-Info.plist"; sourceTree = "<group>"; };
 		7B8BD02220026E8C009BE667 /* eXtenderZ-Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "eXtenderZ-Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -73,7 +77,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7B8BD02320026E8C009BE667 /* eXtenderZ.framework in Frameworks */,
+				7B80AA052236E30A00CECD67 /* eXtenderZ.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -100,6 +104,15 @@
 				7B02C7B922355CDE000481E8 /* eXtenderZ.framework */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		7B80A9F92236DA3700CECD67 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				7B80A9FC2236DB3000CECD67 /* HPNSimpleObject.h */,
+				7B80A9FD2236DB3000CECD67 /* HPNSimpleObject.m */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		7B8BD01120026AF1009BE667 /* Sources */ = {
@@ -129,7 +142,8 @@
 				7B8BD01D20026E8C009BE667 /* Framework-Info.plist */,
 				7B8BD02920026E8C009BE667 /* Test-Info.plist */,
 				7B317610201527E900AD66FD /* eXtenderZ.h */,
-				7B31764E2015348200AD66FD /* module.modulemap */,
+				7B31764E2015348200AD66FD /* module_eXtenderZ.modulemap */,
+				7B80A9FB2236DB2F00CECD67 /* eXtenderZ-Tests-Bridging-Header.h */,
 			);
 			path = "Xcode Supporting Files";
 			sourceTree = "<group>";
@@ -145,6 +159,7 @@
 		7B8BD033200274B9009BE667 /* eXtenderZTests */ = {
 			isa = PBXGroup;
 			children = (
+				7B80A9F92236DA3700CECD67 /* Helpers */,
 				7B8BD034200274B9009BE667 /* eXtenderZTests.swift */,
 			);
 			path = eXtenderZTests;
@@ -168,9 +183,9 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7B317611201527E900AD66FD /* eXtenderZ.h in Headers */,
 				7B3176042015278600AD66FD /* HelptenderUtils.h in Headers */,
 				7B3176082015278600AD66FD /* NSObject+eXtenderZ.h in Headers */,
-				7B317611201527E900AD66FD /* eXtenderZ.h in Headers */,
 				7B31761E20152B1E00AD66FD /* NSObject+Utils.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -252,6 +267,7 @@
 					};
 					7B8BD02120026E8C009BE667 = {
 						CreatedOnToolsVersion = 9.2;
+						LastSwiftMigration = 1010;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -324,6 +340,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7B80A9FE2236DB3000CECD67 /* HPNSimpleObject.m in Sources */,
 				7B8BD036200274B9009BE667 /* eXtenderZTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -346,7 +363,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = "Xcode Supporting Files/Framework-Info.plist";
 				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Xcode Supporting Files/module.modulemap";
+				MODULEMAP_FILE = "Xcode Supporting Files/module_eXtenderZ.modulemap";
 				PRODUCT_BUNDLE_IDENTIFIER = com.happn.eXtenderZ;
 				PRODUCT_NAME = eXtenderZ;
 			};
@@ -359,7 +376,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = "Xcode Supporting Files/Framework-Info.plist";
 				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Xcode Supporting Files/module.modulemap";
+				MODULEMAP_FILE = "Xcode Supporting Files/module_eXtenderZ.modulemap";
 				PRODUCT_BUNDLE_IDENTIFIER = com.happn.eXtenderZ;
 				PRODUCT_NAME = eXtenderZ;
 			};
@@ -505,28 +522,35 @@
 		7B8BD02C20026E8C009BE667 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "Xcode Supporting Files/Framework-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Xcode Supporting Files/module.modulemap";
+				MODULEMAP_FILE = "Xcode Supporting Files/module_eXtenderZ.modulemap";
 				PRODUCT_BUNDLE_IDENTIFIER = com.happn.eXtenderZ;
 				PRODUCT_NAME = eXtenderZ;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
 		7B8BD02D20026E8C009BE667 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "Xcode Supporting Files/Framework-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Xcode Supporting Files/module.modulemap";
+				MODULEMAP_FILE = "Xcode Supporting Files/module_eXtenderZ.modulemap";
 				PRODUCT_BUNDLE_IDENTIFIER = com.happn.eXtenderZ;
 				PRODUCT_NAME = eXtenderZ;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};
@@ -536,9 +560,10 @@
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = "Xcode Supporting Files/Test-Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.happn.eXtenderZ-Tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Xcode Supporting Files/eXtenderZ-Tests-Bridging-Header.h";
 			};
 			name = Debug;
 		};
@@ -548,9 +573,10 @@
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = "Xcode Supporting Files/Test-Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.happn.eXtenderZ-Tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Xcode Supporting Files/eXtenderZ-Tests-Bridging-Header.h";
 			};
 			name = Release;
 		};

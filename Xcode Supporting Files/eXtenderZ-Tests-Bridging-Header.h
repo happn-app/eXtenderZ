@@ -13,16 +13,20 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import XCTest
-@testable import eXtenderZ
+/*
+ * Use this file to import your target's public headers that you would like to expose to Swift.
+ */
+
+#import "HPNSimpleObject.h"
 
 
 
-class eXtenderZTests : XCTestCase {
-	
-	func testNothingGainCoverage() {
-		_eXtenderZ_heyTheresARealSymbolInThisLib_()
-		XCTAssertTrue(true)
-	}
-	
-}
+
+
+#ifndef RealSymbolFunctionForCodeCoverage_h
+# define RealSymbolFunctionForCodeCoverage_h
+
+/* Expose this function so we can call it to have a better code coverage… */
+void _eXtenderZ_heyTheresARealSymbolInThisLib_(void);
+
+#endif /* RealSymbolFunctionForCodeCoverage_h */

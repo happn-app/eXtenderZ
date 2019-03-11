@@ -13,16 +13,14 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-framework module eXtenderZ {
-  umbrella header "eXtenderZ.h"
+@import Foundation;
 
-  export *
-  module * {
-	  export *
-  }
-  
-  explicit module HelptenderUtils {
-	  header "HelptenderUtils.h"
-	  export *
-  }
-}
+
+
+NS_ASSUME_NONNULL_BEGIN
+
+@interface HPNSimpleObject : NSObject
+
+@end
+
+NS_ASSUME_NONNULL_END

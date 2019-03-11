@@ -13,16 +13,10 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import XCTest
-@testable import eXtenderZ
+#import "HPNSimpleObject.h"
 
 
 
-class eXtenderZTests : XCTestCase {
-	
-	func testNothingGainCoverage() {
-		_eXtenderZ_heyTheresARealSymbolInThisLib_()
-		XCTAssertTrue(true)
-	}
-	
-}
+@implementation HPNSimpleObject
+
+@end
