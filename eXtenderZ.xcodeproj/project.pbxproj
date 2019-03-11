@@ -21,6 +21,8 @@
 		7B3176162015282100AD66FD /* ObjcCategoryLibrary.c in Sources */ = {isa = PBXBuildFile; fileRef = 7B3176152015282100AD66FD /* ObjcCategoryLibrary.c */; };
 		7B31761E20152B1E00AD66FD /* NSObject+Utils.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B31761C20152B1D00AD66FD /* NSObject+Utils.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7B31762220152B1E00AD66FD /* NSObject+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B31761D20152B1E00AD66FD /* NSObject+Utils.m */; };
+		7B7F770C22371C95003C8EBE /* HPNSimpleObjectHelptender.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B7F770B22371C94003C8EBE /* HPNSimpleObjectHelptender.m */; };
+		7B7F770E223721AD003C8EBE /* SimpleObjectExtender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7F770D223721AD003C8EBE /* SimpleObjectExtender.swift */; };
 		7B80A9FE2236DB3000CECD67 /* HPNSimpleObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B80A9FD2236DB3000CECD67 /* HPNSimpleObject.m */; };
 		7B80AA052236E30A00CECD67 /* eXtenderZ.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B8BD01A20026E8C009BE667 /* eXtenderZ.framework */; };
 		7B8BD036200274B9009BE667 /* eXtenderZTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B8BD034200274B9009BE667 /* eXtenderZTests.swift */; };
@@ -48,6 +50,9 @@
 		7B31761C20152B1D00AD66FD /* NSObject+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Utils.h"; sourceTree = "<group>"; };
 		7B31761D20152B1E00AD66FD /* NSObject+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Utils.m"; sourceTree = "<group>"; };
 		7B31764E2015348200AD66FD /* module_eXtenderZ.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module_eXtenderZ.modulemap; sourceTree = "<group>"; };
+		7B7F770A22371C94003C8EBE /* HPNSimpleObjectHelptender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPNSimpleObjectHelptender.h; sourceTree = "<group>"; };
+		7B7F770B22371C94003C8EBE /* HPNSimpleObjectHelptender.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPNSimpleObjectHelptender.m; sourceTree = "<group>"; };
+		7B7F770D223721AD003C8EBE /* SimpleObjectExtender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleObjectExtender.swift; sourceTree = "<group>"; };
 		7B80A9FB2236DB2F00CECD67 /* eXtenderZ-Tests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "eXtenderZ-Tests-Bridging-Header.h"; sourceTree = "<group>"; };
 		7B80A9FC2236DB3000CECD67 /* HPNSimpleObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HPNSimpleObject.h; sourceTree = "<group>"; };
 		7B80A9FD2236DB3000CECD67 /* HPNSimpleObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HPNSimpleObject.m; sourceTree = "<group>"; };
@@ -114,6 +119,9 @@
 			children = (
 				7B80A9FC2236DB3000CECD67 /* HPNSimpleObject.h */,
 				7B80A9FD2236DB3000CECD67 /* HPNSimpleObject.m */,
+				7B7F770A22371C94003C8EBE /* HPNSimpleObjectHelptender.h */,
+				7B7F770B22371C94003C8EBE /* HPNSimpleObjectHelptender.m */,
+				7B7F770D223721AD003C8EBE /* SimpleObjectExtender.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -343,6 +351,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7B7F770C22371C95003C8EBE /* HPNSimpleObjectHelptender.m in Sources */,
+				7B7F770E223721AD003C8EBE /* SimpleObjectExtender.swift in Sources */,
 				7B80A9FE2236DB3000CECD67 /* HPNSimpleObject.m in Sources */,
 				7B8BD036200274B9009BE667 /* eXtenderZTests.swift in Sources */,
 			);

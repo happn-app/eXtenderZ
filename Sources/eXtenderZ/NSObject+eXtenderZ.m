@@ -728,18 +728,18 @@ static Class classForObjectExtendedWith(NSObject *object, NSArray *extenders) {
 	}
 	
 	/* General algorithm:
-	 *    For each extender, get list of protocols it conforms to.
+	 *    For each extender, get list of protocols it conforms to;
 	 *    For each protocol, if the protocol conforms to protocol HPNExtender,
-	 *       get the associated helptender, add it to the set of helptenders
-	 *       to add to the final class
+	 *       get the associated helptender, add it to the set of helptenders to
+	 *       add to the final class;
 	 *    Sort the set of helptenders to get a sorted array of helptenders to add
 	 *       to the final class. The sorting must be done on the position of the
-	 *       extended class of the helptender in the class hierarchy. As there are
-	 *       no multiple inheritance allowed in objective-c, and as there can't be
-	 *       two extenders from two different branches of the class hierarchy (eg.
-	 *       one in the NSNumber branch, the other on the UIView branch), there will
-	 *       never be any ambiguity on this order (no classes will be "equal" when
-	 *       compared).
+	 *       extended class of the helptender in the class hierarchy. As there
+	 *       are no multiple inheritance allowed in objective-c, and as there
+	 *       can't be two extenders from two different branches of the class
+	 *       hierarchy (eg. one in the NSNumber branch, the other on the UIView
+	 *       branch), there will never be any ambiguity on this order (no classes
+	 *       will be "equal" when compared);
 	 *    For each classes, create and register the runtime helptender if not
 	 *       already registered, else get it. Return the last runtime helptender,
 	 *       it will be the new class of the extended object.

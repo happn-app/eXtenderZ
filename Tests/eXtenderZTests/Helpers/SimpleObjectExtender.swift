@@ -13,25 +13,21 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-@import Foundation;
+import Foundation
 
 
 
-NS_ASSUME_NONNULL_BEGIN
-
-extern NSMutableDictionary<NSString *, NSNumber *> * _Null_unspecified witnesses;
-
-
-
-@interface HPNSimpleObject0 : NSObject
-
-- (void)test1;
-
-@end
-
-
-@interface HPNSimpleObject1 : HPNSimpleObject0
-
-@end
-
-NS_ASSUME_NONNULL_END
+class SimpleObject0Extender : NSObject, HPNSimpleObject0Extender {
+	
+	func prepareObject(forExtender object: NSObject!) -> Bool {
+		return true
+	}
+	
+	func prepareObjectForRemoval(ofExtender object: NSObject!) {
+	}
+	
+	func didCallTest1() {
+		witnesses["SimpleObject0Extender-test1"] = (witnesses["SimpleObject0Extender-test1"] as? Int ?? 0) + 1
+	}
+	
+}

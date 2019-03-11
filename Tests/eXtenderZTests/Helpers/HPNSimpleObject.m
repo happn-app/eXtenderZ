@@ -15,8 +15,23 @@ limitations under the License. */
 
 #import "HPNSimpleObject.h"
 
+@import Foundation;
 
 
-@implementation HPNSimpleObject
+
+NSMutableDictionary<NSString *, NSNumber *> *witnesses = nil;
+
+
+@implementation HPNSimpleObject0
+
+- (void)test1
+{
+	witnesses[@"test1"] = @(witnesses[@"test1"].integerValue + 1);
+}
+
+@end
+
+
+@implementation HPNSimpleObject1
 
 @end

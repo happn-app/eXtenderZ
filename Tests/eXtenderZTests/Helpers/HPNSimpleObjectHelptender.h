@@ -15,23 +15,19 @@ limitations under the License. */
 
 @import Foundation;
 
+#import "HPNSimpleObject.h"
 
-
-NS_ASSUME_NONNULL_BEGIN
-
-extern NSMutableDictionary<NSString *, NSNumber *> * _Null_unspecified witnesses;
+@import eXtenderZ;
 
 
 
-@interface HPNSimpleObject0 : NSObject
+@protocol HPNSimpleObject0Extender <HPNExtender>
 
-- (void)test1;
+- (void)didCallTest1;
 
 @end
 
 
-@interface HPNSimpleObject1 : HPNSimpleObject0
+@interface HPNSimpleObject0Helptender : HPNSimpleObject0 <HPNHelptender>
 
 @end
-
-NS_ASSUME_NONNULL_END

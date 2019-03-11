@@ -20,9 +20,31 @@ import XCTest
 
 class eXtenderZTests : XCTestCase {
 	
+	override func setUp() {
+		witnesses = [:]
+	}
+	
 	func testNothingGainCoverage() {
 		_eXtenderZ_heyTheresARealSymbolInThisLib_()
 		XCTAssertTrue(true)
+	}
+	
+	func testBasicExtender() {
+		assert(witnesses.count == 0)
+		
+		let extender = SimpleObject0Extender()
+		let object = HPNSimpleObject0()
+		
+		object.test1()
+		XCTAssertEqual(witnesses, ["test1": 1])
+		
+		XCTAssertTrue(object.hpn_add(extender))
+		object.test1()
+		XCTAssertEqual(witnesses, ["test1": 2, "HPNSimpleObject0Helptender-test1": 1, "SimpleObject0Extender-test1": 1])
+		
+		XCTAssertTrue(object.hpn_remove(extender))
+		object.test1()
+		XCTAssertEqual(witnesses, ["test1": 3, "HPNSimpleObject0Helptender-test1": 1, "SimpleObject0Extender-test1": 1])
 	}
 	
 }
