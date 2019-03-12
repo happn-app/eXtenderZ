@@ -17,6 +17,8 @@ limitations under the License. */
 
 
 
+NS_ASSUME_NONNULL_BEGIN
+
 @protocol HPNExtender <NSObject>
 @required
 
@@ -121,7 +123,7 @@ limitations under the License. */
  * extender is removed. */
 - (void)hpn_removeExtender:(NSObject <HPNExtender> *)extender atIndex:(NSUInteger)idx;
 
-- (NSObject <HPNExtender> *)hpn_firstExtenderOfClass:(Class <HPNExtender>)extenderClass;
+- (nullable NSObject <HPNExtender> *)hpn_firstExtenderOfClass:(Class <HPNExtender>)extenderClass;
 
 /* Returns YES if the extender was added to the object, else NO. */
 - (BOOL)hpn_isExtenderAdded:(NSObject <HPNExtender> *)extender;
@@ -134,7 +136,7 @@ limitations under the License. */
 @end
 
 /** Variant of the CHECKED_ADD_EXTENDER preprocessor macro (created for Swift). */
-void HPNCheckedAddExtender(id receiver, NSObject <HPNExtender> *extender);
+void HPNCheckedAddExtender(_Nullable id receiver, NSObject <HPNExtender> *extender);
 #define CHECKED_ADD_EXTENDER(receiver, extender) \
 	{ \
 		id receiverVar = (receiver); \
@@ -142,3 +144,5 @@ void HPNCheckedAddExtender(id receiver, NSObject <HPNExtender> *extender);
 		if ((receiverVar != nil) && ![receiverVar hpn_addExtender:extenderVar]) \
 			[NSException raise:@"Cannot add extender" format:@"Tried to add extender %@ to %@, but it failed.", extenderVar, receiverVar]; \
 	}
+
+NS_ASSUME_NONNULL_END

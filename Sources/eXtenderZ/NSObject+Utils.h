@@ -18,6 +18,8 @@ limitations under the License. */
 
 
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface NSObject (HPNUtils)
 
 + (void)hpn_forwardInvocationLikeNil:(NSInvocation *)invocation;
@@ -29,14 +31,16 @@ limitations under the License. */
  * The return value won't necessarily be the object returned by the creator
  * block (in case for instance the association policy is OBJC_ASSOCIATION_COPY).
  * Using this method is thread-safe. */
-- (id)hpn_getAssociatedObjectWithKey:(void *)key
-			  createIfNotExistWithBlock:(id (^)(void))objectCreator
-						 associationPolicy:(objc_AssociationPolicy)associationPolicy;
+- (nullable id)hpn_getAssociatedObjectWithKey:(void *)key
+						  createIfNotExistWithBlock:(id (^_Nullable)(void))objectCreator
+									 associationPolicy:(objc_AssociationPolicy)associationPolicy;
 
 /* Same as above, with releaseAfterCreation set to YES, associationPolicy set
  * to OBJC_ASSOCIATION_RETAIN_NONATOMIC */
-- (id)hpn_getAssociatedObjectWithKey:(void *)key createIfNotExistWithBlock:(id (^)(void))objectCreator;
+- (nullable id)hpn_getAssociatedObjectWithKey:(void *)key createIfNotExistWithBlock:(id (^_Nullable)(void))objectCreator;
 /* Get the associated object for the given key (same as calling objc_getAssociatedObject). */
-- (id)hpn_getAssociatedObjectWithKey:(void *)key;
+- (nullable id)hpn_getAssociatedObjectWithKey:(void *)key;
 
 @end
+
+NS_ASSUME_NONNULL_END

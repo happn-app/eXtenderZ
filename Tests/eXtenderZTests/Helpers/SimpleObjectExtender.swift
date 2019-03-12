@@ -19,11 +19,11 @@ import Foundation
 
 class SimpleObject0Extender : NSObject, HPNSimpleObject0Extender {
 	
-	func prepareObject(forExtender object: NSObject!) -> Bool {
+	func prepareObject(forExtender object: NSObject) -> Bool {
 		return true
 	}
 	
-	func prepareObjectForRemoval(ofExtender object: NSObject!) {
+	func prepareObjectForRemoval(ofExtender object: NSObject) {
 	}
 	
 	func didCallTest1() {

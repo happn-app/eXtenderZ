@@ -17,6 +17,9 @@ limitations under the License. */
 
 
 
+NS_ASSUME_NONNULL_BEGIN
+
+
 #define HPN_HELPTENDER_CALL_SUPER_NO_ARGS(className) \
 	class_getMethodImplementation([self hpn_getSuperClassWithOriginalHelptenderClass:className.class], _cmd))(self, _cmd
 
@@ -37,12 +40,12 @@ limitations under the License. */
 /* *** */
 
 #define HPN_DYNAMIC_ACCESSOR(type, name, key)                                                                                                                                            \
-	- (type *)name                                                                                                                                                                        \
+	- (nullable type *)name                                                                                                                                                               \
 	{                                                                                                                                                                                     \
 		return [self name##CreateIfNotExist:NO];                                                                                                                                           \
 	}                                                                                                                                                                                     \
 	                                                                                                                                                                                      \
-	- (type *)name##CreateIfNotExist:(BOOL)createIfNeeded                                                                                                                                 \
+	- (nullable type *)name##CreateIfNotExist:(BOOL)createIfNeeded                                                                                                                        \
 	{                                                                                                                                                                                     \
 		id ret = [self hpn_getAssociatedObjectWithKey:&key createIfNotExistWithBlock:(createIfNeeded? ^id{                                                                                 \
 			return [[type alloc] initWithCapacity:7];                                                                                                                                       \
@@ -51,3 +54,6 @@ limitations under the License. */
 		NSAssert(ret == nil || [ret isKindOfClass:type.class], @"***** INTERNAL ERROR: Got invalid (not of class "S(type)") associated object %@ in %@", ret, NSStringFromSelector(_cmd)); \
 		return ret;                                                                                                                                                                        \
 	}
+
+
+NS_ASSUME_NONNULL_END

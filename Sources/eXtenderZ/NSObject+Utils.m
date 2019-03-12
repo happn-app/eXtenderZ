@@ -37,11 +37,12 @@ limitations under the License. */
 	
 	[invocation setReturnValue:ret];
 	
+	/* Ok to free the buffer, setReturnValue: copies its content. */
 	if (dynamicBuffer != NULL) free(dynamicBuffer);
 }
 
-- (id)hpn_getAssociatedObjectWithKey:(void *)key
-			  createIfNotExistWithBlock:(id (^)(void))objectCreator
+- (nullable id)hpn_getAssociatedObjectWithKey:(void *)key
+			  createIfNotExistWithBlock:(id (^_Nullable)(void))objectCreator
 						 associationPolicy:(objc_AssociationPolicy)associationPolicy
 {
 	id ret = objc_getAssociatedObject(self, key);
@@ -62,12 +63,12 @@ limitations under the License. */
 	return ret;
 }
 
-- (id)hpn_getAssociatedObjectWithKey:(void *)key createIfNotExistWithBlock:(id (^)(void))objectCreator
+- (nullable id)hpn_getAssociatedObjectWithKey:(void *)key createIfNotExistWithBlock:(id (^_Nullable)(void))objectCreator
 {
 	return [self hpn_getAssociatedObjectWithKey:key createIfNotExistWithBlock:objectCreator associationPolicy:OBJC_ASSOCIATION_RETAIN_NONATOMIC];
 }
 
-- (id)hpn_getAssociatedObjectWithKey:(void *)key
+- (nullable id)hpn_getAssociatedObjectWithKey:(void *)key
 {
 	return [self hpn_getAssociatedObjectWithKey:key createIfNotExistWithBlock:NULL associationPolicy:OBJC_ASSOCIATION_RETAIN_NONATOMIC];
 }
