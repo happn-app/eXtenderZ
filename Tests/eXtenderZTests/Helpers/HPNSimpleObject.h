@@ -25,7 +25,7 @@ extern NSMutableDictionary<NSString *, NSNumber *> * _Null_unspecified witnesses
 
 @interface HPNSimpleObject0 : NSObject
 
-- (void)test1;
+- (void)doTest1;
 
 @end
 

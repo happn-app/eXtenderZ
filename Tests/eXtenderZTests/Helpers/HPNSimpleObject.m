@@ -24,7 +24,7 @@ NSMutableDictionary<NSString *, NSNumber *> *witnesses = nil;
 
 @implementation HPNSimpleObject0
 
-- (void)test1
+- (void)doTest1
 {
 	witnesses[@"test1"] = @(witnesses[@"test1"].integerValue + 1);
 }

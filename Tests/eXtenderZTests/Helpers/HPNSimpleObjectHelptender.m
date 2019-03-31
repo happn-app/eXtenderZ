@@ -38,7 +38,7 @@ limitations under the License. */
 	/* Nothing do to here */
 }
 
-- (void)test1
+- (void)doTest1
 {
 	witnesses[@"HPNSimpleObject0Helptender-test1"] = @(witnesses[@"HPNSimpleObject0Helptender-test1"].integerValue + 1);
 	

@@ -35,15 +35,15 @@ class eXtenderZTests : XCTestCase {
 		let extender = SimpleObject0Extender()
 		let object = HPNSimpleObject0()
 		
-		object.test1()
+		object.doTest1()
 		XCTAssertEqual(witnesses, ["test1": 1])
 		
 		XCTAssertTrue(object.hpn_add(extender))
-		object.test1()
+		object.doTest1()
 		XCTAssertEqual(witnesses, ["test1": 2, "HPNSimpleObject0Helptender-test1": 1, "SimpleObject0Extender-test1": 1])
 		
 		XCTAssertTrue(object.hpn_remove(extender))
-		object.test1()
+		object.doTest1()
 		XCTAssertEqual(witnesses, ["test1": 3, "HPNSimpleObject0Helptender-test1": 1, "SimpleObject0Extender-test1": 1])
 	}
 	
