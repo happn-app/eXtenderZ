@@ -137,6 +137,7 @@
 		7B8BD01220026AF1009BE667 /* eXtenderZ */ = {
 			isa = PBXGroup;
 			children = (
+				7B317610201527E900AD66FD /* eXtenderZ.h */,
 				7B3176012015278600AD66FD /* HelptenderUtils.h */,
 				7B31761C20152B1D00AD66FD /* NSObject+Utils.h */,
 				7B31761D20152B1E00AD66FD /* NSObject+Utils.m */,
@@ -152,7 +153,6 @@
 				7B3176152015282100AD66FD /* ObjcCategoryLibrary.c */,
 				7B8BD01D20026E8C009BE667 /* Framework-Info.plist */,
 				7B8BD02920026E8C009BE667 /* Test-Info.plist */,
-				7B317610201527E900AD66FD /* eXtenderZ.h */,
 				7B31764E2015348200AD66FD /* module_eXtenderZ.modulemap */,
 				7B80A9FB2236DB2F00CECD67 /* eXtenderZ-Tests-Bridging-Header.h */,
 			);
