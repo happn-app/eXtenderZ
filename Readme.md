@@ -2,8 +2,10 @@
 TODO
 
 ## Installation
-The easiest installation for this project is via Carthage. The project cannot be SPM-compatible because it has
-a part which does not use ARC, and has a custom modulemap.
+The project is now SPM-compatible, via an `xcframework`. Source SPM-compatibility cannot be provided
+AFAICT because the project has a part which does not use ARC, and has a custom modulemap.
+
+Carthage installation should work too.
 
 ## License
 [Apache License 2.0](License.txt)
