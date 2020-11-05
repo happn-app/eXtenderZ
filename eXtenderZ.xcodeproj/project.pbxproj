@@ -19,6 +19,8 @@
 		7B80A9FE2236DB3000CECD67 /* HPNSimpleObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B80A9FD2236DB3000CECD67 /* HPNSimpleObject.m */; };
 		7B80AA052236E30A00CECD67 /* eXtenderZ.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B8BD01A20026E8C009BE667 /* eXtenderZ.framework */; };
 		7B8BD036200274B9009BE667 /* eXtenderZTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B8BD034200274B9009BE667 /* eXtenderZTests.swift */; };
+		7BC647372554277B00DBD702 /* HPNExtenderConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BC647352554277B00DBD702 /* HPNExtenderConfig.m */; };
+		7BC647382554277B00DBD702 /* HPNExtenderConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BC647362554277B00DBD702 /* HPNExtenderConfig.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +55,8 @@
 		7B8BD02220026E8C009BE667 /* eXtenderZTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = eXtenderZTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B8BD02920026E8C009BE667 /* Test-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Test-Info.plist"; sourceTree = "<group>"; };
 		7B8BD034200274B9009BE667 /* eXtenderZTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = eXtenderZTests.swift; sourceTree = "<group>"; };
+		7BC647352554277B00DBD702 /* HPNExtenderConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPNExtenderConfig.m; sourceTree = "<group>"; };
+		7BC647362554277B00DBD702 /* HPNExtenderConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPNExtenderConfig.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +126,8 @@
 			isa = PBXGroup;
 			children = (
 				7B317610201527E900AD66FD /* eXtenderZ.h */,
+				7BC647362554277B00DBD702 /* HPNExtenderConfig.h */,
+				7BC647352554277B00DBD702 /* HPNExtenderConfig.m */,
 				7B3176012015278600AD66FD /* HelptenderUtils.h */,
 				7B31761C20152B1D00AD66FD /* NSObject+Utils.h */,
 				7B31761D20152B1E00AD66FD /* NSObject+Utils.m */,
@@ -168,6 +174,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7B317611201527E900AD66FD /* eXtenderZ.h in Headers */,
+				7BC647382554277B00DBD702 /* HPNExtenderConfig.h in Headers */,
 				7B3176042015278600AD66FD /* HelptenderUtils.h in Headers */,
 				7B3176082015278600AD66FD /* NSObject+eXtenderZ.h in Headers */,
 				7B31761E20152B1E00AD66FD /* NSObject+Utils.h in Headers */,
@@ -277,6 +284,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7B31762220152B1E00AD66FD /* NSObject+Utils.m in Sources */,
+				7BC647372554277B00DBD702 /* HPNExtenderConfig.m in Sources */,
 				7B3176162015282100AD66FD /* ObjcCategoryLibrary.c in Sources */,
 				7B31760C2015278600AD66FD /* NSObject+eXtenderZ.m in Sources */,
 			);

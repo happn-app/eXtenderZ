@@ -1,5 +1,5 @@
 /*
-Copyright 2019 happn
+Copyright 2020 happn
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -13,7 +13,28 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-#import <eXtenderZ/HPNExtenderConfig.h>
+#import "HPNExtenderConfig.h"
 
-#import <eXtenderZ/NSObject+Utils.h>
-#import <eXtenderZ/NSObject+eXtenderZ.h>
+
+
+@implementation HPNExtenderConfig
+
+static os_log_t oslog = nil;
+
++ (os_log_t)oslog
+{
+	return oslog;
+}
+
++ (void)setOslog:(os_log_t)newOslog
+{
+	oslog = newOslog;
+}
+
+- (instancetype)init
+{
+	[super doesNotRecognizeSelector:_cmd];
+	return nil;
+}
+
+@end

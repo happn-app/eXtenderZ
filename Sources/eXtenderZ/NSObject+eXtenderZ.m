@@ -18,6 +18,8 @@ limitations under the License. */
 @import os.log;
 @import ObjectiveC.runtime;
 
+#import "HPNExtenderConfig.h"
+
 #import "NSObject+Utils.h"
 #import "HelptenderUtils.h"
 
@@ -38,7 +40,8 @@ static CFMutableDictionaryRef sharedClassLevelFromOriginalAndRuntimeHelptender(v
 static Class classForObjectExtendedWith(NSObject *object, NSArray *extenders);
 static Class changeClassOfObjectNotifyingHelptenders(NSObject *object, Class newClass);
 
-/* Returns a concatenation of str, str2 and str3. str3 can be NULL (not the others).
+/* Returns a concatenation of str, str2 and str3. str3 can be NULL (not the
+ * others).
  * The returned string should be free'd using free()
  * The implementation is not optimized. This function is intended to be used in
  * addMethodForPropertyNamed:inClass: to create the selector name and type
@@ -429,7 +432,7 @@ static CFHashCode classPairHash(const void *value) {
 	Class c = classForObjectExtendedWith(self, (self.hpn_extenders? [self.hpn_extenders arrayByAddingObject:extender]: @[extender]));
 	if (c == Nil) {
 //		HPNTLogW(kLTExtenders, @"Can't get the class to extend object %@.", self);
-		if (@available(macOS 10.11, iOS 9.0, *)) os_log_info(nil, "Can't get the class to extend object %{public}@.", self);
+		if (@available(macOS 10.11, iOS 9.0, *)) os_log_info(HPNExtenderConfig.oslog, "Can't get the class to extend object %{public}@.", self);
 		else                                     NSLog(@"*** Can't get the class to extend object %@.", self);
 		return NO;
 	}
@@ -444,7 +447,7 @@ static CFHashCode classPairHash(const void *value) {
 	[[self hpn_extendersCreateIfNotExist:YES] addObject:extender];
 	objc_setAssociatedObject(self, &EXTENDERS_BY_PROTOCOL_KEY, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC); /* Clear the extenders by protocol cache */
 //	HPNTLogI(kLTExtenders, @"Added extender %@ to object %@", extender, self);
-	if (@available(macOS 10.11, iOS 9.0, *)) os_log(nil, "Added extender %{public}@ to object %{public}@", extender, self);
+	if (@available(macOS 10.11, iOS 9.0, *)) os_log(HPNExtenderConfig.oslog, "Added extender %{public}@ to object %{public}@", extender, self);
 	else                                     NSLog(@"Added extender %@ to object %@", extender, self);
 
 	return YES;
@@ -465,14 +468,14 @@ static CFHashCode classPairHash(const void *value) {
 {
 	if ([self hpn_isExtenderAdded:extender]) {
 //		HPNTLogW(kLTExtenders, @"Tried to add extender %@ to extended object %@, but this extender is already added to this object", extender, self);
-		if (@available(macOS 10.11, iOS 9.0, *)) os_log_info(nil, "Tried to add extender %{public}@ to extended object %{public}@, but this extender is already added to this object", extender, self);
+		if (@available(macOS 10.11, iOS 9.0, *)) os_log_info(HPNExtenderConfig.oslog, "Tried to add extender %{public}@ to extended object %{public}@, but this extender is already added to this object", extender, self);
 		else                                     NSLog(@"Tried to add extender %@ to extended object %@, but this extender is already added to this object", extender, self);
 		return NO;
 	}
 	
 	if (![extender prepareObjectForExtender:self]) {
 //		HPNTLogW(kLTExtenders, @"Failed to add extender %@ to extended object %@", extender, self);
-		if (@available(macOS 10.11, iOS 9.0, *)) os_log_info(nil, "Failed to add extender %{public}@ to extended object %{public}@", extender, self);
+		if (@available(macOS 10.11, iOS 9.0, *)) os_log_info(HPNExtenderConfig.oslog, "Failed to add extender %{public}@ to extended object %{public}@", extender, self);
 		else                                     NSLog(@"Failed to add extender %@ to extended object %@", extender, self);
 		return NO;
 	}
@@ -486,7 +489,7 @@ static CFHashCode classPairHash(const void *value) {
 	NSParameterAssert(e[idx] == extender);
 	
 //	HPNTLogI(kLTExtenders, @"Removing extender %@ from object %p <%s>", extender, self, class_getName(self.class));
-	if (@available(macOS 10.11, iOS 9.0, *)) os_log(nil, "Removing extender %{public}@ from object %{public}p <%{public}s>", extender, self, class_getName(self.class));
+	if (@available(macOS 10.11, iOS 9.0, *)) os_log(HPNExtenderConfig.oslog, "Removing extender %{public}@ from object %{public}p <%{public}s>", extender, self, class_getName(self.class));
 	else                                     NSLog(@"Removing extender %@ from object %p <%s>", extender, self, class_getName(self.class));
 	[extender prepareObjectForRemovalOfExtender:self];
 	[e removeObjectAtIndex:idx];
@@ -693,7 +696,7 @@ static BOOL recAddProtocolsHelptendersToSet(Protocol *baseProtocol, CFMutableSet
 	if (![refObject.class isSubclassOfClass:helptender->extended]) {
 //		HPNTLogW(kLTExtenders, @"Got helptender class %s for protocol %s, declared to extend %s, but extended object %p (of class %s) is not kind of %s",
 //					class_getName(helptender->helptenderClass), protocol_getName(baseProtocol), class_getName(helptender->extended), refObject, class_getName(refObject.class), class_getName(helptender->extended));
-		if (@available(macOS 10.11, iOS 9.0, *)) os_log_info(nil, "Got helptender class %{public}s for protocol %{public}s, declared to extend %{public}s, but extended object %{public}p (of class %{public}s) is not kind of %{public}s", class_getName(helptender->helptenderClass), protocol_getName(baseProtocol), class_getName(helptender->extended), refObject, class_getName(refObject.class), class_getName(helptender->extended));
+		if (@available(macOS 10.11, iOS 9.0, *)) os_log_info(HPNExtenderConfig.oslog, "Got helptender class %{public}s for protocol %{public}s, declared to extend %{public}s, but extended object %{public}p (of class %{public}s) is not kind of %{public}s", class_getName(helptender->helptenderClass), protocol_getName(baseProtocol), class_getName(helptender->extended), refObject, class_getName(refObject.class), class_getName(helptender->extended));
 		else                                     NSLog(@"Got helptender class %s for protocol %s, declared to extend %s, but extended object %p (of class %s) is not kind of %s", class_getName(helptender->helptenderClass), protocol_getName(baseProtocol), class_getName(helptender->extended), refObject, class_getName(refObject.class), class_getName(helptender->extended));
 		return NO;
 	}
@@ -722,7 +725,7 @@ static Class classForObjectExtendedWith(NSObject *object, NSArray *extenders) {
 		 (object_getClass(object) != object.class || strstr(className, "NSCF") != NULL)) {
 		/* Small protection to avoid messing around with other mechanism doing ISA-Swizzling (KVO, etc.). */
 //		HPNTLogW(kLTExtenders, @"Refusing to create runtime helptender for an object whose NSObject's class method does not return the same value as object_getClass(), or whose class name contains \"NSCF\" (toll-free bridged objects). NSObject's class --> %@; object_getClass() --> %@.", NSStringFromClass(object.class), NSStringFromClass(object_getClass(object)));
-		if (@available(macOS 10.11, iOS 9.0, *)) os_log_info(nil, "Refusing to create runtime helptender for an object whose NSObject's class method does not return the same value as object_getClass(), or whose class name contains \"NSCF\" (toll-free bridged objects). NSObject's class --> %{public}@; object_getClass() --> %{public}@.", NSStringFromClass(object.class), NSStringFromClass(object_getClass(object)));
+		if (@available(macOS 10.11, iOS 9.0, *)) os_log_info(HPNExtenderConfig.oslog, "Refusing to create runtime helptender for an object whose NSObject's class method does not return the same value as object_getClass(), or whose class name contains \"NSCF\" (toll-free bridged objects). NSObject's class --> %{public}@; object_getClass() --> %{public}@.", NSStringFromClass(object.class), NSStringFromClass(object_getClass(object)));
 		else                                     NSLog(@"Refusing to create runtime helptender for an object whose NSObject's class method does not return the same value as object_getClass(), or whose class name contains \"NSCF\" (toll-free bridged objects). NSObject's class --> %@; object_getClass() --> %@.", NSStringFromClass(object.class), NSStringFromClass(object_getClass(object)));
 		return Nil;
 	}
@@ -777,7 +780,7 @@ static Class classForObjectExtendedWith(NSObject *object, NSArray *extenders) {
 		CFMutableDictionaryRef ohfrh = sharedOriginalHelptendersFromRuntimeHelptender();
 		CFMutableDictionaryRef clfoarh = sharedClassLevelFromOriginalAndRuntimeHelptender();
 //		HPNTLogT(kLTExtenders, @"Creating runtime helptender for base class %s, with %ld helptender(s)", class_getName(hh->baseClass), (long)nHelptenders);
-		if (@available(macOS 10.11, iOS 9.0, *)) os_log_debug(nil, "Creating runtime helptender for base class %{public}s, with %{public}ld helptender(s)", class_getName(hh->baseClass), (long)nHelptenders);
+		if (@available(macOS 10.11, iOS 9.0, *)) os_log_debug(HPNExtenderConfig.oslog, "Creating runtime helptender for base class %{public}s, with %{public}ld helptender(s)", class_getName(hh->baseClass), (long)nHelptenders);
 		else                                     NSLog(@"Creating runtime helptender for base class %s, with %ld helptender(s)", class_getName(hh->baseClass), (long)nHelptenders);
 		
 		CFArrayCallBacks objectCallbacks = {
@@ -985,7 +988,7 @@ static Class changeClassOfObjectNotifyingHelptenders(NSObject *object, Class new
 	Class c = classForObjectExtendedWith(self, (self.hpn_extenders? [self.hpn_extenders arrayByAddingObject:extender]: @[extender]));
 	if (c == Nil) {
 //		HPNTLogW(kLTExtenders, @"Can't get the class to extend object %@.", self);
-		if (@available(macOS 10.11, iOS 9.0, *)) os_log_info(nil, "Can't get the class to extend object %{public}@.", self);
+		if (@available(macOS 10.11, iOS 9.0, *)) os_log_info(HPNExtenderConfig.oslog, "Can't get the class to extend object %{public}@.", self);
 		else                                     NSLog(@"Can't get the class to extend object %@.", self);
 		return NO;
 	}
