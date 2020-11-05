@@ -7,13 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7B02C7AC22355CDE000481E8 /* NSObject+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B31761D20152B1E00AD66FD /* NSObject+Utils.m */; };
-		7B02C7AD22355CDE000481E8 /* ObjcCategoryLibrary.c in Sources */ = {isa = PBXBuildFile; fileRef = 7B3176152015282100AD66FD /* ObjcCategoryLibrary.c */; };
-		7B02C7AE22355CDE000481E8 /* NSObject+eXtenderZ.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B3176032015278600AD66FD /* NSObject+eXtenderZ.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		7B02C7B122355CDE000481E8 /* HelptenderUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B3176012015278600AD66FD /* HelptenderUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7B02C7B222355CDE000481E8 /* NSObject+eXtenderZ.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B3176022015278600AD66FD /* NSObject+eXtenderZ.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7B02C7B322355CDE000481E8 /* eXtenderZ.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B317610201527E900AD66FD /* eXtenderZ.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7B02C7B422355CDE000481E8 /* NSObject+Utils.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B31761C20152B1D00AD66FD /* NSObject+Utils.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7B3176042015278600AD66FD /* HelptenderUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B3176012015278600AD66FD /* HelptenderUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7B3176082015278600AD66FD /* NSObject+eXtenderZ.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B3176022015278600AD66FD /* NSObject+eXtenderZ.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7B31760C2015278600AD66FD /* NSObject+eXtenderZ.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B3176032015278600AD66FD /* NSObject+eXtenderZ.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -39,8 +32,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		7B02C7B922355CDE000481E8 /* eXtenderZ.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = eXtenderZ.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		7B21BACE2003B2C600DFF758 /* Readme.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Readme.md; sourceTree = "<group>"; };
+		7B21BACE2003B2C600DFF758 /* Readme.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Readme.md; sourceTree = "<group>"; wrapsLines = 1; };
 		7B21BAD12003BF0600DFF758 /* License.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = License.txt; sourceTree = "<group>"; };
 		7B3176012015278600AD66FD /* HelptenderUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelptenderUtils.h; sourceTree = "<group>"; };
 		7B3176022015278600AD66FD /* NSObject+eXtenderZ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+eXtenderZ.h"; sourceTree = "<group>"; };
@@ -64,13 +56,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		7B02C7AF22355CDE000481E8 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		7B8BD01620026E8C009BE667 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -109,7 +94,6 @@
 			children = (
 				7B8BD01A20026E8C009BE667 /* eXtenderZ.framework */,
 				7B8BD02220026E8C009BE667 /* eXtenderZTests.xctest */,
-				7B02C7B922355CDE000481E8 /* eXtenderZ.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -179,17 +163,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		7B02C7B022355CDE000481E8 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				7B02C7B122355CDE000481E8 /* HelptenderUtils.h in Headers */,
-				7B02C7B222355CDE000481E8 /* NSObject+eXtenderZ.h in Headers */,
-				7B02C7B322355CDE000481E8 /* eXtenderZ.h in Headers */,
-				7B02C7B422355CDE000481E8 /* NSObject+Utils.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		7B8BD01720026E8C009BE667 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -204,24 +177,6 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		7B02C7AA22355CDE000481E8 /* eXtenderZ-Static */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 7B02C7B622355CDE000481E8 /* Build configuration list for PBXNativeTarget "eXtenderZ-Static" */;
-			buildPhases = (
-				7B02C7AB22355CDE000481E8 /* Sources */,
-				7B02C7AF22355CDE000481E8 /* Frameworks */,
-				7B02C7B022355CDE000481E8 /* Headers */,
-				7B02C7B522355CDE000481E8 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "eXtenderZ-Static";
-			productName = "happnLogger-macOS";
-			productReference = 7B02C7B922355CDE000481E8 /* eXtenderZ.framework */;
-			productType = "com.apple.product-type.framework";
-		};
 		7B8BD01920026E8C009BE667 /* eXtenderZ */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7B8BD02B20026E8C009BE667 /* Build configuration list for PBXNativeTarget "eXtenderZ" */;
@@ -265,12 +220,9 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0920;
-				LastUpgradeCheck = 0930;
+				LastUpgradeCheck = 1210;
 				ORGANIZATIONNAME = happn;
 				TargetAttributes = {
-					7B02C7AA22355CDE000481E8 = {
-						ProvisioningStyle = Automatic;
-					};
 					7B8BD01920026E8C009BE667 = {
 						CreatedOnToolsVersion = 9.2;
 						LastSwiftMigration = 1010;
@@ -297,20 +249,12 @@
 			projectRoot = "";
 			targets = (
 				7B8BD01920026E8C009BE667 /* eXtenderZ */,
-				7B02C7AA22355CDE000481E8 /* eXtenderZ-Static */,
 				7B8BD02120026E8C009BE667 /* eXtenderZTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		7B02C7B522355CDE000481E8 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		7B8BD01820026E8C009BE667 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -328,16 +272,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		7B02C7AB22355CDE000481E8 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				7B02C7AC22355CDE000481E8 /* NSObject+Utils.m in Sources */,
-				7B02C7AD22355CDE000481E8 /* ObjcCategoryLibrary.c in Sources */,
-				7B02C7AE22355CDE000481E8 /* NSObject+eXtenderZ.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		7B8BD01520026E8C009BE667 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -370,32 +304,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		7B02C7B722355CDE000481E8 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = "Xcode Supporting Files/Framework-Info.plist";
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Xcode Supporting Files/module_eXtenderZ.modulemap";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.happn.eXtenderZ-Static";
-				PRODUCT_NAME = eXtenderZ;
-			};
-			name = Debug;
-		};
-		7B02C7B822355CDE000481E8 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = "Xcode Supporting Files/Framework-Info.plist";
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Xcode Supporting Files/module_eXtenderZ.modulemap";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.happn.eXtenderZ-Static";
-				PRODUCT_NAME = eXtenderZ;
-			};
-			name = Release;
-		};
 		7B661FA220026ACC00486182 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -421,6 +329,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -493,6 +402,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -568,6 +478,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = "Xcode Supporting Files/Test-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PRODUCT_BUNDLE_IDENTIFIER = com.happn.eXtenderZTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Xcode Supporting Files/eXtenderZ-Tests-Bridging-Header.h";
@@ -581,6 +492,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = "Xcode Supporting Files/Test-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PRODUCT_BUNDLE_IDENTIFIER = com.happn.eXtenderZTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Xcode Supporting Files/eXtenderZ-Tests-Bridging-Header.h";
@@ -590,15 +502,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		7B02C7B622355CDE000481E8 /* Build configuration list for PBXNativeTarget "eXtenderZ-Static" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				7B02C7B722355CDE000481E8 /* Debug */,
-				7B02C7B822355CDE000481E8 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		7B661F9620026ACC00486182 /* Build configuration list for PBXProject "eXtenderZ" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
