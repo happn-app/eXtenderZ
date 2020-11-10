@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1210"
+   LastUpgradeVersion = "1220"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "7B8BD01920026E8C009BE667"
-               BuildableName = "eXtenderZ.framework"
-               BlueprintName = "eXtenderZ"
+               BlueprintIdentifier = "7B39FF1E255AAA08008AF2C5"
+               BuildableName = "libeXtenderZ.a"
+               BlueprintName = "eXtenderZ-static-iOS"
                ReferencedContainer = "container:eXtenderZ.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -27,26 +27,7 @@
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "7B8BD01920026E8C009BE667"
-            BuildableName = "eXtenderZ.framework"
-            BlueprintName = "eXtenderZ"
-            ReferencedContainer = "container:eXtenderZ.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "7B8BD02120026E8C009BE667"
-               BuildableName = "eXtenderZTests.xctest"
-               BlueprintName = "eXtenderZTests"
-               ReferencedContainer = "container:eXtenderZ.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
@@ -59,15 +40,6 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "7B8BD01920026E8C009BE667"
-            BuildableName = "eXtenderZ.framework"
-            BlueprintName = "eXtenderZ"
-            ReferencedContainer = "container:eXtenderZ.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -78,9 +50,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "7B8BD01920026E8C009BE667"
-            BuildableName = "eXtenderZ.framework"
-            BlueprintName = "eXtenderZ"
+            BlueprintIdentifier = "7B39FF1E255AAA08008AF2C5"
+            BuildableName = "libeXtenderZ.a"
+            BlueprintName = "eXtenderZ-static-iOS"
             ReferencedContainer = "container:eXtenderZ.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

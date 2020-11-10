@@ -13,18 +13,10 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-#ifndef HPN_eXtenderZ_STATIC
+#ifndef __HPN_eXtenderZ__
+# define __HPN_eXtenderZ__
 
-# import <eXtenderZ/HPNExtenderConfig.h>
+# define HPN_eXtenderZ_STATIC
+# include "eXtenderZ.h"
 
-# import <eXtenderZ/NSObject+Utils.h>
-# import <eXtenderZ/NSObject+eXtenderZ.h>
-
-#else
-
-# import "HPNExtenderConfig.h"
-
-# import "NSObject+Utils.h"
-# import "NSObject+eXtenderZ.h"
-
-#endif
+#endif /* __HPN_eXtenderZ__ */

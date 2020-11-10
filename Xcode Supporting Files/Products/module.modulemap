@@ -1,5 +1,5 @@
 /*
-Copyright 2019 happn
+Copyright 2020 happn
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -13,18 +13,11 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-/* Note: If the file is called module.modulemap, the test target uses it as its
- *       own modulemap and the compilation fails with a cryptic error… */
-
-framework module eXtenderZ {
-	umbrella header "eXtenderZ.h"
-	
+module eXtenderZ {
+	header "eXtenderZ-static.h"
 	export *
-	module * {
-		export *
-	}
 	
-	explicit module HelptenderUtils {
+	module HelptenderUtils {
 		header "HelptenderUtils.h"
 		export *
 	}
