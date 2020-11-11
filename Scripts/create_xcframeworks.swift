@@ -15,11 +15,11 @@ main.currentdirectory = URL(fileURLWithPath: filepath).deletingLastPathComponent
 
 
 do {
-	guard main.arguments.count == 1 else {
-		exit(errormessage: "usage: \(filepath) version")
+	guard main.arguments.count <= 1 else {
+		exit(errormessage: "usage: \(filepath) [version]\n\nIf version is set, the generated Package.swift file will contain the path to the GitHub release. Should be used by CI pipelines only.")
 	}
 	
-	let version = main.arguments[0]
+	let version = main.arguments.first
 	
 	let buildFolderURL = URL(fileURLWithPath: "./build", isDirectory: true)
 	let archivesFolderURL = buildFolderURL.appendingPathComponent("archives")
@@ -72,22 +72,26 @@ do {
 		xcframeworkArgs.append(contentsOf: ["-output", xcframeworkURL.absoluteURL.path])
 		try runAndPrint("xcodebuild", xcframeworkArgs)
 		
-		var zipContext = CustomContext(main)
-		zipContext.currentdirectory = zipXCFrameworkURL.absoluteURL.deletingLastPathComponent().path
-		try zipContext.runAndPrint("zip", "-r", zipXCFrameworkURL.absoluteURL.path, xcframeworkURL.lastPathComponent)
-		
-		let checksumResult = run("swift", "package", "compute-checksum", zipXCFrameworkURL.absoluteURL.path)
-		if let e = checksumResult.error {print(checksumResult.stderror); throw e}
-		
-		checksums[type.name] = checksumResult.stdout
+		if let version = version {
+			var zipContext = CustomContext(main)
+			zipContext.currentdirectory = zipXCFrameworkURL.absoluteURL.deletingLastPathComponent().path
+			try zipContext.runAndPrint("zip", "-r", zipXCFrameworkURL.absoluteURL.path, xcframeworkURL.lastPathComponent)
+			
+			let checksumResult = run("swift", "package", "compute-checksum", zipXCFrameworkURL.absoluteURL.path)
+			if let e = checksumResult.error {print(checksumResult.stderror); throw e}
+			
+			checksums[type.name] = checksumResult.stdout
+		}
 	}
-	try writePackageFile(version: version, checksums: checksums)
+	if let version = version {
+		try writePackageFile(version: version, checksums: checksums)
+	}
 } catch {
 	exit(error)
 }
 
 
-func writePackageFile(version: String, checksums: [String: String?]) throws {
+func writePackageFile(version: String?, checksums: [String: String?]) throws {
 	let types = checksums.keys.sorted(by: { $0.count < $1.count })
 	
 	var packageString = """
@@ -117,7 +121,7 @@ func writePackageFile(version: String, checksums: [String: String?]) throws {
 	packageString.append(types.map{ type in
 		let checksum = checksums[type]!
 		if let checksum = checksum {
-			return #"\#t\#t.binaryTarget(name: "eXtenderZ-\#(type)", url: ["https://github.com/happn-tech/eXtenderZ/releases/download/\#(version)/eXtenderZ-\#(type).xcframework.zip"], checksum: "\#(checksum)")"#
+			return #"\#t\#t.binaryTarget(name: "eXtenderZ-\#(type)", url: ["https://github.com/happn-tech/eXtenderZ/releases/download/\#(version!)/eXtenderZ-\#(type).xcframework.zip"], checksum: "\#(checksum)")"#
 		} else {
 			return #"\#t\#t.binaryTarget(name: "eXtenderZ-\#(type)", path: "./build/eXtenderZ-\#(type).xcframework")"#
 		}
