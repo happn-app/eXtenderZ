@@ -9,10 +9,16 @@ image:https://img.shields.io/badge/platform-macOS%20|%20iOS%20|%20tvOS%20|%20wat
 TODO
 
 == Installation
-The project is now SPM-compatible, via an `xcframework`. Source SPM-compatibility cannot be provided
+Even though there is no Package.swift file in this project in the main branch, the project is now SPM-compatible,
+with support for a dynamic and a static version of the package.
+
+*⚠️ Important*: If you use the static version of the package, you *must* add the `-ObjC` flag in _Other Linker Flags_
+(`OTHER_LDFLAGS`) in the build settings of your project.
+
+Compatibility is provided via an `xcframework` only. Source SPM-compatibility cannot be provided
 AFAICT because the project has a part which does not use ARC, and has a custom modulemap.
 
-Carthage installation should work too.
+Carthage installation should work too for dynamic frameworks, but it hasn’t been tested.
 
 == Credits
 This project was originally created by {frizlab}[François Lamboley] while working at {happn}[happn].
