@@ -133,24 +133,3 @@ func writePackageFile(version: String?, checksums: [String: String?]) throws {
 		""")
 	try Data(packageString.utf8).write(to: URL(fileURLWithPath: "Package.swift"))
 }
-
-
-//// swift-tools-version:5.3
-//import PackageDescription
-//
-//
-///* Binary package definition for eXtenderZ.
-// * Use the xcodeproj if you want to work on the eXtenderZ project. */
-//
-//let package = Package(
-//	name: "eXtenderZ",
-//	products: [
-////		.library(name: "eXtenderZ",         targets: ["eXtenderZ-static", "eXtenderZ-dynamic"]),
-//		.library(name: "eXtenderZ-static",  targets: ["eXtenderZ-static"]),
-//		.library(name: "eXtenderZ-dynamic", targets: ["eXtenderZ-dynamic"])
-//	],
-//	targets: [
-//		.binaryTarget(name: "eXtenderZ-static",  path: "./build/eXtenderZ-static.xcframework"),
-//		.binaryTarget(name: "eXtenderZ-dynamic", path: "./build/eXtenderZ-dynamic.xcframework")
-//	]
-//)
