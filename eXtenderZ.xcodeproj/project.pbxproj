@@ -158,6 +158,7 @@
 		7B39FF1F255AAA08008AF2C5 /* libeXtenderZ.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libeXtenderZ.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B39FF30255AAA3A008AF2C5 /* libeXtenderZ.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libeXtenderZ.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B39FF40255AAA8D008AF2C5 /* libeXtenderZ.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libeXtenderZ.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		7B83A9C0255D127F00791D17 /* .github */ = {isa = PBXFileReference; lastKnownFileType = folder; path = .github; sourceTree = "<group>"; };
 		7B91F9EB255AEE3E00D5E6E0 /* Scripts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Scripts; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -354,6 +355,7 @@
 				7B39FEB9255AA577008AF2C5 /* Tests */,
 				7B39FEA9255AA577008AF2C5 /* Xcode Supporting Files */,
 				7B91F9EB255AEE3E00D5E6E0 /* Scripts */,
+				7B83A9C0255D127F00791D17 /* .github */,
 				7B39FE73255AA43B008AF2C5 /* Products */,
 			);
 			sourceTree = "<group>";
