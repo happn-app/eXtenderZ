@@ -20,5 +20,10 @@ AFAICT because the project has a part which does not use ARC, and has a custom m
 
 Carthage installation should work too for dynamic frameworks, but it hasn’t been tested.
 
+== Versioning Note
+The pbxproj sets `DYLIB_CURRENT_VERSION` and `DYLIB_COMPATIBILITY_VERSION` to `$(MARKETING_VERSION)`.
+We set the same versions in both fields because this lib is not meant to be shared between processes,
+so we don’t really care about the versions.
+
 == Credits
 This project was originally created by {frizlab}[François Lamboley] while working at {happn}[happn].
