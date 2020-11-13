@@ -10,10 +10,15 @@ TODO
 
 == Installation
 Even though there is no Package.swift file in this project in the main branch, the project is now SPM-compatible,
-with support for a dynamic and a static version of the package.
+with support for a dynamic and a static version of the package (only the dynamic target works via SPM for now;
+last tested w/ Xcode 12.2).
 
 *⚠️ Important*: If you use the static version of the package, you *must* add the `-ObjC` flag in _Other Linker Flags_
 (`OTHER_LDFLAGS`) in the build settings of your project.
+
+Regarding the static version of the SPM project not working, I suspect an Xcode bug: the build system tries
+and embed the `.a` lib in the app and fails when signing. +
+You can use the static xcframework directly though (download it in the releases section of the project on GitHub).
 
 Compatibility is provided via an `xcframework` only. Source SPM-compatibility cannot be provided
 AFAICT because the project has a part which does not use ARC, and has a custom modulemap.
