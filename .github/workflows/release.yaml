@@ -11,14 +11,16 @@ env:
    GIT_COMMITTER_NAME: GitHub Runner (eXtenderZ)
 
 jobs:
-   bump-version-and-tag:
-      name: Bump Build Version and Tag
+   bump-version-compile-and-tag:
+      name: Bump Build Version, Build and Tag
       runs-on: [macos-10.15]
       
       steps:
-         - name: Install hagvtool
+         - name: Install hagvtool and swift-sh
            # If brew is not up-to-date, `brew install --cask` might not exist
-           run: brew install --cask happn-tech/public/hagvtool || brew cask install happn-tech/public/hagvtool
+           run: |
+              brew install --cask happn-tech/public/hagvtool || brew cask install happn-tech/public/hagvtool
+              brew install mxcl/made/swift-sh
          
          - name: Import GPG Signing Key
            run: gpg --import --pinentry-mode=loopback --passphrase '' <<<'${{ secrets.GPG_PRIVATE_KEY }}'
@@ -71,7 +73,7 @@ jobs:
          
          - uses: actions/upload-artifact@v2
            with:
-             name: xcframeworks
-             path: |
-               build/eXtenderZ-dynamic.xcframework.zip
-               build/eXtenderZ-static.xcframework.zip
+              name: xcframeworks
+              path: |
+                 build/eXtenderZ-dynamic.xcframework.zip
+                 build/eXtenderZ-static.xcframework.zip
