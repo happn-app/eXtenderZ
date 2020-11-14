@@ -6,6 +6,9 @@ François Lamboley <francois.lamboley@happn.com>
 
 image:https://img.shields.io/badge/platform-macOS%20|%20iOS%20|%20tvOS%20|%20watchOS-lightgrey.svg?style=flat[Platforms] link:https://swift.org/package-manager/[image:https://img.shields.io/badge/SPM-compatible-E05C43.svg?style=flat[SPM Compatible]] link:License.txt[image:https://img.shields.io/github/license/happn-app/eXtenderZ.svg[License]] link:{happn}[image:https://img.shields.io/badge/from-happn-0087B4.svg?style=flat[happn]]
 
+Use the full-extent of Objective-C'`s runtime dynamicity.
+
+== What is this?
 TODO
 
 == Installation
