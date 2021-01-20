@@ -7,6 +7,11 @@ on:
 
 env:
    DEVELOPER_DIR: /Applications/Xcode_12.1.app/Contents/Developer
+   # FYI diff between author and committer: https://stackoverflow.com/a/18754896
+   # For commits
+   GIT_AUTHOR_EMAIL: github@happn.com
+   GIT_AUTHOR_NAME: GitHub Runner (eXtenderZ)
+   # For tags
    GIT_COMMITTER_EMAIL: github@happn.com
    GIT_COMMITTER_NAME: GitHub Runner (eXtenderZ)
 
