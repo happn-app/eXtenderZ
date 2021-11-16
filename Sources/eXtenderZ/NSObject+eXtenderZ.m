@@ -28,9 +28,8 @@ limitations under the License. */
 #define ALLOW_KVO_HACK
 #undef ALLOW_KVO_HACK
 
-static char EXTENDERS_KEY; /* Global 0 initialization is fine here. No need to
-									 * change it since the value of the variable is not
-									 * used; only its address. */
+static char EXTENDERS_KEY; /* Global 0 initialization is fine here.
+									 * No need to change it since the value of the variable is not used; only its address. */
 static char EXTENDERS_BY_PROTOCOL_KEY;
 
 static CFMutableDictionaryRef sharedHelptendersByProtocol(void);
@@ -40,12 +39,12 @@ static CFMutableDictionaryRef sharedClassLevelFromOriginalAndRuntimeHelptender(v
 static Class classForObjectExtendedWith(NSObject *object, NSArray *extenders);
 static Class changeClassOfObjectNotifyingHelptenders(NSObject *object, Class newClass);
 
-/* Returns a concatenation of str, str2 and str3. str3 can be NULL (not the
- * others).
- * The returned string should be free'd using free()
- * The implementation is not optimized. This function is intended to be used in
- * addMethodForPropertyNamed:inClass: to create the selector name and type
- * for the added selector. */
+/**
+ Returns a concatenation of @c str, @c str2 and @c str3. @c str3 can be @c NULL (not the others).
+ The returned string should be free’d using @c free()@endc.
+ 
+ The implementation is not optimized.
+ This function is intended to be used in @c classForObjectExtendedWith() to create the selector name and type for the added selector. */
 static char *copyStrs(const char * restrict str1, const char * restrict str2, const char * restrict str3);
 static char *auto_sprintf(char * restrict buffer, size_t buffer_size, BOOL * restrict has_malloced, const char * restrict format, ...);
 
@@ -371,7 +370,7 @@ static CFHashCode classPairHash(const void *value) {
 		[self hpn_removeExtender:self.hpn_extenders[n-1] atIndex:n-1];
 	
 	((void (*)(id, SEL))HPN_HELPTENDER_CALL_SUPER_NO_ARGS(HPNObjectBaseHelptender));
-	if (/* DISABLES CODE */ (NO)) [super dealloc]; /* Happy compiler is happy */
+	if (/* DISABLED CODE */(NO)) [super dealloc]; /* Happy compiler is happy */
 }
 
 - (BOOL)hpn_isExtended
@@ -431,9 +430,9 @@ static CFHashCode classPairHash(const void *value) {
 {
 	Class c = classForObjectExtendedWith(self, (self.hpn_extenders? [self.hpn_extenders arrayByAddingObject:extender]: @[extender]));
 	if (c == Nil) {
-//		HPNTLogW(kLTExtenders, @"Can't get the class to extend object %@.", self);
-		if (@available(macOS 10.11, iOS 9.0, *)) os_log_info(HPNExtenderConfig.oslog, "Can't get the class to extend object %{public}@.", self);
-		else                                     NSLog(@"*** Can't get the class to extend object %@.", self);
+//		HPNTLogW(kLTExtenders, @"Can’t get the class to extend object %@.", self);
+		if (@available(macOS 10.11, iOS 9.0, *)) os_log_info(HPNExtenderConfig.oslog, "Can’t get the class to extend object %{public}@.", self);
+		else                                     NSLog(@"*** Can’t get the class to extend object %@.", self);
 		return NO;
 	}
 	if (c != object_getClass(self)) {
@@ -580,9 +579,7 @@ static CFHashCode classPairHash(const void *value) {
 	CFNumberRef n = NULL;
 	do {
 		n = CFDictionaryGetValue(sharedClassLevelFromOriginalAndRuntimeHelptender(), &classPair);
-		/* If n is NULL (unregistered class pair), we try with super classes
-		 * because (among others) KVO does ISA-swizzling too and screws the class
-		 * pair registration... */
+		/* If n is NULL (unregistered class pair), we try with super classes because (among others) KVO does ISA-swizzling too and screws the class pair registration… */
 	} while (n == NULL && (classPair.class1 = class_getSuperclass(classPair.class1)) != Nil);
 	NSCAssert(n != NULL, @"***** INTERNAL ERROR: Got NULL level for class pair %s (or superclass)/%s.", class_getName(object_getClass(self)), class_getName(classPair.class2));
 #endif
@@ -684,8 +681,8 @@ static CFMutableDictionaryRef sharedClassLevelFromOriginalAndRuntimeHelptender(v
 	return classLevelFromOriginalAndRuntimeHelptender;
 }
 
-/* Returns NO if the baseProtocol conforms to protocol HPNExtender, but the
- * helptender is not kind of the class of the ref object. */
+/**
+ Returns @c NO if the baseProtocol conforms to protocol @c HPNExtender, but the helptender is not kind of the class of the ref object. */
 static BOOL recAddProtocolsHelptendersToSet(Protocol *baseProtocol, CFMutableSetRef set, NSObject *refObject) {
 	if (!protocol_conformsToProtocol(baseProtocol, @protocol(HPNExtender)))
 		return YES;
@@ -716,36 +713,32 @@ end:
 	return ok;
 }
 
-/* Compute which helptenders are needed for each extenders given, then get or
- * create the class that will have the correct hierarchy. */
+/** Computes which helptenders are needed for each extenders given, then get or create the class that will have the correct hierarchy. */
 static Class classForObjectExtendedWith(NSObject *object, NSArray *extenders) {
 	const char *className = class_getName(object.class);
 	
 	if (!object.hpn_isExtended &&
 		 (object_getClass(object) != object.class || strstr(className, "NSCF") != NULL)) {
 		/* Small protection to avoid messing around with other mechanism doing ISA-Swizzling (KVO, etc.). */
-//		HPNTLogW(kLTExtenders, @"Refusing to create runtime helptender for an object whose NSObject's class method does not return the same value as object_getClass(), or whose class name contains \"NSCF\" (toll-free bridged objects). NSObject's class --> %@; object_getClass() --> %@.", NSStringFromClass(object.class), NSStringFromClass(object_getClass(object)));
-		if (@available(macOS 10.11, iOS 9.0, *)) os_log_info(HPNExtenderConfig.oslog, "Refusing to create runtime helptender for an object whose NSObject's class method does not return the same value as object_getClass(), or whose class name contains \"NSCF\" (toll-free bridged objects). NSObject's class --> %{public}@; object_getClass() --> %{public}@.", NSStringFromClass(object.class), NSStringFromClass(object_getClass(object)));
-		else                                     NSLog(@"Refusing to create runtime helptender for an object whose NSObject's class method does not return the same value as object_getClass(), or whose class name contains \"NSCF\" (toll-free bridged objects). NSObject's class --> %@; object_getClass() --> %@.", NSStringFromClass(object.class), NSStringFromClass(object_getClass(object)));
+//		HPNTLogW(kLTExtenders, @"Refusing to create runtime helptender for an object whose NSObject’s class method does not return the same value as object_getClass(), or whose class name contains \"NSCF\" (toll-free bridged objects). NSObject’s class --> %@; object_getClass() --> %@.", NSStringFromClass(object.class), NSStringFromClass(object_getClass(object)));
+		if (@available(macOS 10.11, iOS 9.0, *)) os_log_info(HPNExtenderConfig.oslog, "Refusing to create runtime helptender for an object whose NSObject’s class method does not return the same value as object_getClass(), or whose class name contains \"NSCF\" (toll-free bridged objects). NSObject’s class --> %{public}@; object_getClass() --> %{public}@.", NSStringFromClass(object.class), NSStringFromClass(object_getClass(object)));
+		else                                     NSLog(@"Refusing to create runtime helptender for an object whose NSObject’s class method does not return the same value as object_getClass(), or whose class name contains \"NSCF\" (toll-free bridged objects). NSObject’s class --> %@; object_getClass() --> %@.", NSStringFromClass(object.class), NSStringFromClass(object_getClass(object)));
 		return Nil;
 	}
 	
 	/* General algorithm:
 	 *    For each extender, get list of protocols it conforms to;
-	 *    For each protocol, if the protocol conforms to protocol HPNExtender,
-	 *       get the associated helptender, add it to the set of helptenders to
-	 *       add to the final class;
-	 *    Sort the set of helptenders to get a sorted array of helptenders to add
-	 *       to the final class. The sorting must be done on the position of the
-	 *       extended class of the helptender in the class hierarchy. As there
-	 *       are no multiple inheritance allowed in objective-c, and as there
-	 *       can't be two extenders from two different branches of the class
-	 *       hierarchy (eg. one in the NSNumber branch, the other on the UIView
-	 *       branch), there will never be any ambiguity on this order (no classes
-	 *       will be "equal" when compared);
-	 *    For each classes, create and register the runtime helptender if not
-	 *       already registered, else get it. Return the last runtime helptender,
-	 *       it will be the new class of the extended object.
+	 *    For each protocol,
+	 *       if the protocol conforms to protocol HPNExtender,
+	 *       get the associated helptender,
+	 *       add it to the set of helptenders to add to the final class;
+	 *    Sort the set of helptenders to get a sorted array of helptenders to add to the final class.
+	 *       The sorting must be done on the position of the extended class of the helptender in the class hierarchy.
+	 *       As there are no multiple inheritance allowed in objective-c,
+	 *       and as there can’t be two extenders from two different branches of the class hierarchy (eg. one in the NSNumber branch, the other on the UIView branch),
+	 *       there will never be any ambiguity on this order (no classes will be "equal" when compared);
+	 *    For each classes, create and register the runtime helptender if not already registered, else get it.
+	 *       Return the last runtime helptender, it will be the new class of the extended object.
 	 */
 	
 	t_helptenders_hierarchy *hh = createHelptendersHierarchyWithBaseClass(object.class);
@@ -775,7 +768,7 @@ static Class classForObjectExtendedWith(NSObject *object, NSArray *extenders) {
 	
 	Class ret = CFDictionaryGetValue(sharedRuntimeHelptendersByHierarchy(), hh);
 	if (ret == Nil) {
-		/* The runtime class has not been created yet. Let's create it! */
+		/* The runtime class has not been created yet. Let’s create it! */
 		CFIndex nHelptenders = CFSetGetCount(hh->helptenders);
 		CFMutableDictionaryRef ohfrh = sharedOriginalHelptendersFromRuntimeHelptender();
 		CFMutableDictionaryRef clfoarh = sharedClassLevelFromOriginalAndRuntimeHelptender();
@@ -830,14 +823,14 @@ static Class classForObjectExtendedWith(NSObject *object, NSArray *extenders) {
 				++level;
 			}
 			
-			/* We have created the new class. Let's add the methods of the original helptender to it. */
+			/* We have created the new class. Let’s add the methods of the original helptender to it. */
 			Method *methods = class_copyMethodList(curHelptender->helptenderClass, NULL);
 			for (Method *curMethodPtr = methods; curMethodPtr != NULL && *curMethodPtr != NULL; ++curMethodPtr)
 				if (!class_addMethod(ret, method_getName(*curMethodPtr), method_getImplementation(*curMethodPtr), method_getTypeEncoding(*curMethodPtr)))
 					[NSException raise:@"Error Adding Method" format:@"Cannot add method %s to runtime helptender %s. Probably two helptenders extending the same class have methods sharing the same name.", sel_getName(method_getName(*curMethodPtr)), class_getName(ret)];
 			if (methods != NULL) free(methods);
 			
-			/* Let's register the original helptender class for the new runtime helptender class */
+			/* Let’s register the original helptender class for the new runtime helptender class */
 			CFMutableSetRef registeredClasses = (CFMutableSetRef)CFDictionaryGetValue(ohfrh, ret);
 			if (registeredClasses == NULL) {
 				registeredClasses = CFSetCreateMutable(kCFAllocatorDefault, 0, NULL /* Contains classes */);
@@ -846,20 +839,19 @@ static Class classForObjectExtendedWith(NSObject *object, NSArray *extenders) {
 			}
 			CFSetAddValue(registeredClasses, curHelptender->helptenderClass);
 			
-			/* Let's add the level of the class to the temp levels dictionary.
-			 * After the final class is created, we fill
-			 * classLevelFromOriginalAndRuntimeHelptender from the temp levels. */
+			/* Let’s add the level of the class to the temp levels dictionary.
+			 * After the final class is created, we fill classLevelFromOriginalAndRuntimeHelptender from the temp levels. */
 			CFNumberRef n = CFNumberCreate(kCFAllocatorDefault, kCFNumberCFIndexType, &level);
 			CFDictionarySetValue(tempLevels, curHelptender->helptenderClass, n);
 			CFRelease(n);
 			
 			if (nextHelptender == NULL || curHelptender->extended != nextHelptender->extended)
-				/* The runtime helptender is complete. Let's register it in the runtime. */
+				/* The runtime helptender is complete. Let’s register it in the runtime. */
 				objc_registerClassPair(ret);
 		}
 		free(baseClassName); baseClassName = NULL;
 		
-		/* Let's fill classLevelFromOriginalAndRuntimeHelptender from tempLevels. */
+		/* Let’s fill classLevelFromOriginalAndRuntimeHelptender from tempLevels. */
 		CFIndex maxLevel = level + 1;
 		CFIndex n = CFDictionaryGetCount(tempLevels);
 		Class *keys = malloc(sizeof(Class) * n);
@@ -867,7 +859,7 @@ static Class classForObjectExtendedWith(NSObject *object, NSArray *extenders) {
 		CFDictionaryGetKeysAndValues(tempLevels, (const void **)keys, (const void **)values);
 		for (CFIndex i = 0; i < n; ++i) {
 			t_class_pair *cp = createClassPair(ret, keys[i]);
-			NSCAssert(CFDictionaryGetValue(clfoarh, cp) == NULL, @"***** INTERNAL ERROR: We shouldn't have the class pair %s/%s registered for class level.", class_getName(cp->class1), class_getName(cp->class2));
+			NSCAssert(CFDictionaryGetValue(clfoarh, cp) == NULL, @"***** INTERNAL ERROR: We shouldn’t have the class pair %s/%s registered for class level.", class_getName(cp->class1), class_getName(cp->class2));
 			CFIndex newLevel = 0;
 			CFNumberGetValue(values[i], kCFNumberCFIndexType, &newLevel);
 			newLevel = maxLevel - newLevel;
@@ -944,9 +936,8 @@ static Class changeClassOfObjectNotifyingHelptenders(NSObject *object, Class new
 #pragma mark - NSObject Category
 
 @implementation NSObject (_eXtenderZ)
-/* These implementations (except for hpn_registerClass:asHelptenderForProtocol:
- * are only called on a non-extended object. For extended objects, the
- * implementation in HPNObjectBaseHelptender are called. */
+/* These implementations (except for hpn_registerClass:asHelptenderForProtocol:) are only called on a non-extended object.
+ * For extended objects, the implementation in HPNObjectBaseHelptender are called. */
 
 + (BOOL)hpn_registerClass:(Class)c asHelptenderForProtocol:(Protocol *)protocol
 {
@@ -957,8 +948,8 @@ static Class changeClassOfObjectNotifyingHelptenders(NSObject *object, Class new
 	
 	Class extendedClass = class_getSuperclass(c); /* A helptender extends its direct superclass by definition. */
 	if (CFDictionaryGetValue(sharedHelptendersByProtocol(), protocol) != NULL)
-		/* There is already a helptender register for the given protocol. Only one
-		 * helptender can be defined for a given protocol. */
+		/* There is already a helptender register for the given protocol.
+		 * Only one helptender can be defined for a given protocol. */
 		return NO;
 	
 	t_helptender *helptender = createHelptender(extendedClass, protocol, c);
@@ -987,9 +978,9 @@ static Class changeClassOfObjectNotifyingHelptenders(NSObject *object, Class new
 {
 	Class c = classForObjectExtendedWith(self, (self.hpn_extenders? [self.hpn_extenders arrayByAddingObject:extender]: @[extender]));
 	if (c == Nil) {
-//		HPNTLogW(kLTExtenders, @"Can't get the class to extend object %@.", self);
-		if (@available(macOS 10.11, iOS 9.0, *)) os_log_info(HPNExtenderConfig.oslog, "Can't get the class to extend object %{public}@.", self);
-		else                                     NSLog(@"Can't get the class to extend object %@.", self);
+//		HPNTLogW(kLTExtenders, @"Can’t get the class to extend object %@.", self);
+		if (@available(macOS 10.11, iOS 9.0, *)) os_log_info(HPNExtenderConfig.oslog, "Can’t get the class to extend object %{public}@.", self);
+		else                                     NSLog(@"Can’t get the class to extend object %@.", self);
 		return NO;
 	}
 	
@@ -1045,9 +1036,9 @@ static Class changeClassOfObjectNotifyingHelptenders(NSObject *object, Class new
 - (Class)hpn_getSuperClassWithOriginalHelptenderClass:(Class)originalHelptenderClass
 {
 #pragma unused(originalHelptenderClass)
-	return object_getClass(self); /* And not the superclass! We call this method
-											 * in a helptender, expecting to call super. We
-											 * must call the original class then. */
+	return object_getClass(self); /* And not the superclass!
+											 * We call this method in a helptender, expecting to call super.
+											 * We must call the original class then. */
 }
 
 @end

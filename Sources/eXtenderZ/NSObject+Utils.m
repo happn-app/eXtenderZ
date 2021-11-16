@@ -53,8 +53,7 @@ limitations under the License. */
 				ret = objectCreator();
 				objc_setAssociatedObject(self, key, ret, associationPolicy);
 				
-				/* In case associationPolicy is OBJC_ASSOCIATION_COPY for instance,
-				 * we must get the new associated object. */
+				/* In case associationPolicy is OBJC_ASSOCIATION_COPY for instance, we must get the new associated object. */
 				ret = objc_getAssociatedObject(self, key);
 			}
 		}

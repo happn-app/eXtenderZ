@@ -33,5 +33,18 @@ The pbxproj sets `DYLIB_CURRENT_VERSION` and `DYLIB_COMPATIBILITY_VERSION` to `$
 We set the same versions in both fields because this lib is not meant to be shared between processes,
 so we don’t really care about the versions.
 
+== Notes About the Documentation
+
+I tried having a proper inline documentation.
+It was not trivial because the project is in Objective-C.
+
+I used http://www.cocoanutsdev.com/resources/headerdoc-reference-by-justin-loew[a quick HeaderDoc reference] I found, which does not describe HeaderDoc per se
+(e.g. `headerdoc2html` fails to recognize a lot of tags), but gave me the tags I needed to have a proper render in Xcode.
+
+I tried to build the HTML documentation with `appledoc`.
+It does not know more about the `@c` tag than `headerdoc2html` sadly.
+
+There is still a lot of work to be done to have something fully good.
+
 == Credits
 This project was originally created by {frizlab}[François Lamboley] while working at {happn}[happn].
