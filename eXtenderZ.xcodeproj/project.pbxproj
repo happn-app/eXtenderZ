@@ -124,6 +124,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7B0751B2274414B0006E13DA /* Examples */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Examples; sourceTree = "<group>"; };
 		7B0E91EE255ACC03002E8F1F /* eXtenderZ.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = eXtenderZ.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B0E91F6255ACC03002E8F1F /* eXtenderZTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = eXtenderZTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B0E9210255ACC59002E8F1F /* eXtenderZ.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = eXtenderZ.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -354,6 +355,7 @@
 				7B39FEAF255AA577008AF2C5 /* Sources */,
 				7B39FEB9255AA577008AF2C5 /* Tests */,
 				7B39FEA9255AA577008AF2C5 /* Xcode Supporting Files */,
+				7B0751B2274414B0006E13DA /* Examples */,
 				7B91F9EB255AEE3E00D5E6E0 /* Scripts */,
 				7B83A9C0255D127F00791D17 /* .github */,
 				7B39FE73255AA43B008AF2C5 /* Products */,
