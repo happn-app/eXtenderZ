@@ -69,7 +69,7 @@ jobs:
               
               git commit --allow-empty -am "Set build version to $NEW_BUILD_VERSION and marketing version to $NEW_MARKETING_VERSION with hagvtool"
               
-              ./Scripts/create_xcframeworks.swift "$NEW_MARKETING_VERSION"
+              ./Scripts/create-xcframeworks.swift "$NEW_MARKETING_VERSION"
               git add Package.swift
               git commit -am "Create the Package.swift file for SPM-compatibility"
               
