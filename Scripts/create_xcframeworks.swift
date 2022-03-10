@@ -121,7 +121,7 @@ func writePackageFile(version: String?, checksums: [String: String?]) throws {
 	packageString.append(types.map{ type in
 		let checksum = checksums[type]!
 		if let checksum = checksum {
-			return #"\#t\#t.binaryTarget(name: "eXtenderZ-\#(type)", url: "https://github.com/happn-tech/eXtenderZ/releases/download/\#(version!)/eXtenderZ-\#(type).xcframework.zip", checksum: "\#(checksum)")"#
+			return #"\#t\#t.binaryTarget(name: "eXtenderZ-\#(type)", url: "https://github.com/happn-app/eXtenderZ/releases/download/\#(version!)/eXtenderZ-\#(type).xcframework.zip", checksum: "\#(checksum)")"#
 		} else {
 			return #"\#t\#t.binaryTarget(name: "eXtenderZ-\#(type)", path: "./build/eXtenderZ-\#(type).xcframework")"#
 		}
