@@ -157,7 +157,7 @@ limitations under the License. */
 	/* ********* Let's call the updates. ********* */
 	for (HPNCoreDataUpdate *update in currentStaticUpdates) {
 		/* The assert below is WRONG!
-		 * See: http://stackoverflow.com/a/32213076/1152894 */
+		 * See: http://stackoverflow.com/a/32213076 */
 //		ASSERT_INVALID_INDEX(update.destinationIndex);
 		ASSERT_VALID_INDEX(update.sourceIdx);
 		

@@ -13,7 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-/* See http://stackoverflow.com/questions/2567498/objective-c-categories-in-static-library
+/* See https://stackoverflow.com/q/2567498
  * Objective-c categories are not real symbols. So a lib with only categories
  * is seen as empty by the linker and it compiles with a warning. To get rid of
  * the warning, this symbol is added to categories-only libs. */
