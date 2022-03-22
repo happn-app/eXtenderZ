@@ -24,7 +24,7 @@ jobs:
          - name: Install hagvtool and swift-sh
            # If brew is not up-to-date, `brew install --cask` might not exist
            run: |
-              brew install --cask happn-tech/public/hagvtool || brew cask install happn-tech/public/hagvtool
+              brew install --cask happn-app/public/hagvtool || brew cask install happn-app/public/hagvtool
               brew install mxcl/made/swift-sh
          
          - name: Import GPG Signing Key
